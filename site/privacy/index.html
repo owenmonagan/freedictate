@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreeDictate Privacy: Nothing Leaves Your Mac</title>
+<meta name="description" content="FreeDictate is offline dictation for Mac. Your audio and text never leave your computer. What it stores, what it contacts, and how to check the source yourself.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/privacy/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/privacy/">
+<meta property="og:title" content="FreeDictate privacy">
+<meta property="og:description" content="Nothing leaves your Mac. Here is how to check.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FreeDictate privacy">
+<meta name="twitter:description" content="Nothing leaves your Mac. Here is how to check.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "FreeDictate",
+   "item": "https://owenmonagan.github.io/freedictate/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Privacy",
+   "item": "https://owenmonagan.github.io/freedictate/privacy/"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "FreeDictate privacy",
+ "description": "FreeDictate is offline dictation for Mac. Your audio and text never leave your computer. What it stores, what it contacts, and how to check the source yourself.",
+ "url": "https://owenmonagan.github.io/freedictate/privacy/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/privacy/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "publisher": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "about": {
+  "@type": "SoftwareApplication",
+  "name": "FreeDictate",
+  "operatingSystem": "macOS",
+  "applicationCategory": "UtilitiesApplication",
+  "url": "https://owenmonagan.github.io/freedictate/"
+ }
+}
+</script>
+</head>
+<body>
+<!--
+  FreeDictate subpage skeleton. Copy these parts verbatim into new pages:
+    [SKELETON: nav]     <a class="skip"> + <header class="nav"> below. Paths use ../ (add one ../ per extra folder level).
+    [SKELETON: crumbs]  <nav class="crumbs"> inside <main class="page">. Keep it in sync with the BreadcrumbList JSON-LD.
+    [SKELETON: head]    <header class="page-head"> with eyebrow, the page's one h1, and .dek.
+    [PAGE CONTENT]      <article class="prose"> holds the unique content (h2/h3, p, ul/ol, pre, .table-wrap > table, .callout).
+    [SKELETON: related] <aside class="related"> link list.
+    [SKELETON: footer]  <footer class="footer"> below.
+  No hud.js or main.js on subpages. Do not add the .reveal class (it needs main.js).
+-->
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../how-it-works/">How it works</a><a href="../install/">Install</a><a href="../privacy/">Privacy</a><a href="../#compare">Compare</a><a href="../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../">FreeDictate</a></li><li><span aria-current="page">Privacy</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Privacy · Offline · Open source</p>
+    <h1>Nothing leaves your Mac</h1>
+    <p class="dek">FreeDictate has no account, no cloud and no analytics. Your voice is turned into text on your Mac, and you can read the code that does it.</p>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <h2>The short version</h2>
+    <ul>
+      <li>Your audio is recorded and transcribed on your Mac. It is never uploaded.</li>
+      <li>FreeDictate has no account, no sign-in and no server of its own.</li>
+      <li>The app sends no analytics, telemetry or crash reports.</li>
+      <li>This website has no analytics or tracking scripts either.</li>
+      <li>All of it is open source, so you don't have to take our word for it.</li>
+    </ul>
+
+    <h2>What FreeDictate connects to</h2>
+    <p>While you dictate, FreeDictate makes exactly one kind of network request: it sends your recording to the speech engine at <code>http://127.0.0.1:8178</code>. That address is your own Mac. The speech engine, <code>whisper-server</code>, is set to listen only on <code>127.0.0.1</code>, so other devices on your network can't reach it. FreeDictate also checks that same local address to see whether the engine is running. If it isn't, FreeDictate runs <code>whisper-cli</code> directly on your Mac, which makes no network connection at all.</p>
+    <p>The app contains no other web addresses it talks to. You can confirm this yourself: open <a href="https://github.com/owenmonagan/freedictate/blob/main/app/dictate.lua"><code>app/dictate.lua</code></a> and search for <code>http</code>. The only addresses are the two local ones above.</p>
+    <div class="callout callout-ok">
+      <p class="callout-title">The one time it goes online.</p>
+      <p>The installer downloads software with Homebrew and fetches the speech model once from the whisper.cpp model repository. After that, dictation works with Wi-Fi off.</p>
+    </div>
+
+    <h2>What is stored on your Mac</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Local files">
+      <table>
+        <thead><tr><th scope="col">What</th><th scope="col">Where</th><th scope="col">Why</th></tr></thead>
+        <tbody>
+          <tr><td>Your latest recording</td><td><code>$TMPDIR/freedictate.wav</code></td><td>The audio being transcribed. It is replaced by each new recording, and lives in your private temporary folder.</td></tr>
+          <tr><td>The speech model</td><td><code>~/.local/share/whisper/ggml-large-v3-turbo-q5_0.bin</code></td><td>The whisper.cpp model, about 550 MB. It contains no data about you.</td></tr>
+          <tr><td>Your settings</td><td>Hammerspoon's settings</td><td>Your talk key and whether Setup has run.</td></tr>
+          <tr><td>Speech engine log</td><td><code>~/Library/Logs/freedictate-whisper-server.log</code></td><td>Start-up and error messages from whisper-server.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>FreeDictate keeps no history of what you've said. Transcripts are pasted and not saved.</p>
+
+    <h2>Your clipboard</h2>
+    <p>To type your words, FreeDictate briefly puts the transcript on your clipboard, presses <kbd>⌘V</kbd>, and then puts back whatever you had copied before. Your clipboard ends up as you left it. The one exception: if Hammerspoon doesn't have Accessibility access, FreeDictate can't paste, so it leaves the transcript on the clipboard for you to paste yourself.</p>
+
+    <h2>Permissions</h2>
+    <p>Hammerspoon, which runs FreeDictate, asks for two macOS permissions:</p>
+    <ul>
+      <li><strong>Microphone</strong>, used only while you are dictating or testing your mic in Setup.</li>
+      <li><strong>Accessibility</strong>, used to notice your talk key and to paste.</li>
+    </ul>
+    <p>You can turn either off at any time in System Settings, under Privacy &amp; Security.</p>
+
+    <h2>This website</h2>
+    <p>This site is plain HTML and CSS on GitHub Pages. It loads no analytics, no ad or tracking scripts, no cookies and no third-party fonts. GitHub, which hosts it, may keep standard server logs, as any web host does.</p>
+
+    <h2>Check it yourself</h2>
+    <p>FreeDictate is MIT-licensed and the full source is on <a href="https://github.com/owenmonagan/freedictate">GitHub</a>. The app is one Lua file, the installer is one shell script, and the speech engine setup is one LaunchAgent template, <code>launchd/dev.freedictate.whisper-server.plist.template</code>, where you can see <code>--host 127.0.0.1</code> for yourself. To go further, turn off Wi-Fi and dictate. It works the same.</p>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../how-it-works/">How FreeDictate works<span>whisper.cpp on your Mac, offline, with any button.</span></a></li>
+      <li><a href="../install/">Install FreeDictate<span>One command, plus uninstall and fixes.</span></a></li>
+      <li><a href="../changelog/">Changelog<span>What changed, and when.</span></a></li>
+      <li><a href="../vs/wispr-flow/">FreeDictate vs Wispr Flow<span>A free, offline alternative with nothing to configure.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../install/">Install</a><a href="../how-it-works/">How it works</a><a href="../privacy/">Privacy</a><a href="../guides/">Guides</a><a href="../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../vs/wispr-flow/">vs Wispr Flow</a><a href="../vs/superwhisper/">vs Superwhisper</a><a href="../vs/voiceink/">vs VoiceInk</a><a href="../vs/macwhisper/">vs MacWhisper</a><a href="../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>

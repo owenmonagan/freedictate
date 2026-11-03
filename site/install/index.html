@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install FreeDictate on Mac: Setup, Uninstall and Troubleshooting</title>
+<meta name="description" content="How to install FreeDictate, the free offline dictation app for Mac. One command sets up Hammerspoon, ffmpeg, whisper.cpp and the speech model. Plus permissions, uninstall and fixes.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/install/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/install/">
+<meta property="og:title" content="Install FreeDictate on Mac">
+<meta property="og:description" content="One command. Free, offline dictation for Mac. Setup, uninstall and troubleshooting.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Install FreeDictate on Mac">
+<meta name="twitter:description" content="One command. Free, offline dictation for Mac. Setup, uninstall and troubleshooting.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "FreeDictate", "item": "https://owenmonagan.github.io/freedictate/"},
+  {"@type": "ListItem", "position": 2, "name": "Install", "item": "https://owenmonagan.github.io/freedictate/install/"}
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "TechArticle",
+ "headline": "Install FreeDictate on your Mac",
+ "description": "How to install FreeDictate, the free offline dictation app for Mac, plus permissions, uninstall and troubleshooting.",
+ "url": "https://owenmonagan.github.io/freedictate/install/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/install/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "author": {"@type": "Person", "name": "Owen Monagan"},
+ "publisher": {"@type": "Person", "name": "Owen Monagan"},
+ "about": {"@type": "SoftwareApplication", "name": "FreeDictate", "operatingSystem": "macOS", "applicationCategory": "UtilitiesApplication", "url": "https://owenmonagan.github.io/freedictate/"}
+}
+</script>
+</head>
+<body>
+<!--
+  FreeDictate subpage skeleton. Copy these parts verbatim into new pages:
+    [SKELETON: nav]     <a class="skip"> + <header class="nav"> below. Paths use ../ (add one ../ per extra folder level).
+    [SKELETON: crumbs]  <nav class="crumbs"> inside <main class="page">. Keep it in sync with the BreadcrumbList JSON-LD.
+    [SKELETON: head]    <header class="page-head"> with eyebrow, the page's one h1, and .dek.
+    [PAGE CONTENT]      <article class="prose"> holds the unique content (h2/h3, p, ul/ol, pre, .table-wrap > table, .callout).
+    [SKELETON: related] <aside class="related"> link list.
+    [SKELETON: footer]  <footer class="footer"> below.
+  No hud.js or main.js on subpages. Do not add the .reveal class (it needs main.js).
+-->
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../how-it-works/">How it works</a><a href="../install/">Install</a><a href="../privacy/">Privacy</a><a href="../#compare">Compare</a><a href="../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../">FreeDictate</a></li><li><span aria-current="page">Install</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Install · Free · For Mac</p>
+    <h1>Install FreeDictate on your Mac</h1>
+    <p class="dek">One command. Choose your button. Talk. Here is everything the installer does, how to remove it, and how to fix the common snags.</p>
+    <div class="install" role="group" aria-label="Install command">
+      <code>git clone https://github.com/owenmonagan/freedictate.git &amp;&amp; cd freedictate &amp;&amp; ./install.sh</code>
+    </div>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <h2>What you need</h2>
+    <ul>
+      <li><strong>A Mac.</strong> The installer runs on macOS only, on Apple silicon or Intel. Apple silicon is recommended for speed.</li>
+      <li><strong>Homebrew.</strong> If it isn't installed, get it from <a href="https://brew.sh">brew.sh</a> and re-run the installer. It also looks in <code>/opt/homebrew</code> and <code>/usr/local</code> if <code>brew</code> isn't on your PATH.</li>
+      <li><strong>git</strong>, if you use the one-line installer. If it's missing, run <code>xcode-select --install</code>.</li>
+      <li><strong>About 550 MB of disk</strong> for the speech model, downloaded once.</li>
+    </ul>
+    <p>No account and no payment. FreeDictate is MIT-licensed and free.</p>
+
+    <h2>Install in one command</h2>
+    <p>Clone the repo and run the installer:</p>
+    <pre><code>git clone https://github.com/owenmonagan/freedictate.git
+cd freedictate
+./install.sh</code></pre>
+    <p>Or pipe it straight from GitHub. In that case the installer clones FreeDictate into <code>~/.freedictate</code> for you, and updates it there if you run it again:</p>
+    <pre><code>curl -fsSL https://raw.githubusercontent.com/owenmonagan/freedictate/main/install.sh | bash</code></pre>
+    <div class="callout callout-ok">
+      <p class="callout-title">Safe to re-run.</p>
+      <p>The installer is idempotent. It skips anything already in place, so running it again is also how you update or repair an install.</p>
+    </div>
+
+    <h2>What the installer does</h2>
+    <ol>
+      <li><strong>Checks your Mac.</strong> It stops on anything that isn't macOS, and reports Apple silicon or Intel.</li>
+      <li><strong>Installs dependencies with Homebrew:</strong> <code>whisper-cpp</code> (the on-device speech engine), <code>ffmpeg</code> (records your microphone), and the <code>hammerspoon</code> cask (listens for your button and pastes text). Each is skipped if it's already installed.</li>
+      <li><strong>Downloads the speech model</strong>, <code>ggml-large-v3-turbo-q5_0.bin</code>, from the whisper.cpp model repository to <code>~/.local/share/whisper/</code>. This happens once.</li>
+      <li><strong>Starts the speech engine.</strong> It writes a LaunchAgent, <code>~/Library/LaunchAgents/dev.freedictate.whisper-server.plist</code>, that runs <code>whisper-server</code> on <code>127.0.0.1:8178</code>. Only your Mac can reach it. It starts at login and restarts if it stops. Logs go to <code>~/Library/Logs/freedictate-whisper-server.log</code>.</li>
+      <li><strong>Wires up Hammerspoon.</strong> It links <code>app/dictate.lua</code> to <code>~/.hammerspoon/freedictate.lua</code> and adds <code>require("freedictate").start()</code> to <code>~/.hammerspoon/init.lua</code>. Your other Hammerspoon config is left alone.</li>
+      <li><strong>Opens Hammerspoon</strong>, which loads FreeDictate and shows the Setup window on first run.</li>
+    </ol>
+
+    <h2>Setup: permissions and your button</h2>
+    <p>The FreeDictate Setup window walks you through each step, then lets you try it live.</p>
+    <h3>Microphone</h3>
+    <p>Allow Hammerspoon to use the microphone when macOS asks. FreeDictate records only while you're talking, as 16 kHz mono audio to a temporary file.</p>
+    <h3>Accessibility</h3>
+    <p>Grant Hammerspoon Accessibility access in System Settings, under Privacy &amp; Security. FreeDictate needs it to paste text with <kbd>⌘V</kbd> into the app you're using. It restores your clipboard afterwards.</p>
+    <h3>Start at login</h3>
+    <p>On first run, FreeDictate sets Hammerspoon to open at login, so your button works after every restart.</p>
+    <h3>Your button</h3>
+    <p>Pick any key, a combo, a lone modifier like Right Option, or the middle, back or forward mouse button. The default is <kbd>⌥</kbd> <kbd>Space</kbd>. You can change it any time from the FreeDictate menu bar icon with <strong>Set talk key…</strong>, or go back with <strong>Reset to ⌥Space</strong>.</p>
+
+    <h2>Using it</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Controls">
+      <table>
+        <thead><tr><th scope="col">Do this</th><th scope="col">What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hold</strong> your button, talk, let go</td><td>Recording stops when you release. Your words are pasted.</td></tr>
+          <tr><td><strong>Tap</strong> your button, talk, tap again</td><td>Hands-free. A press shorter than 0.35 seconds counts as a tap.</td></tr>
+          <tr><td>Press <kbd>Esc</kbd> while listening</td><td>Cancels. Nothing is pasted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A small pill at the bottom of the screen shows when FreeDictate is listening, with a live level meter, and when it's transcribing.</p>
+
+    <h2>Uninstall</h2>
+    <p>From the FreeDictate folder (or <code>~/.freedictate</code> if you used the one-liner), run:</p>
+    <pre><code>./uninstall.sh</code></pre>
+    <p>This stops and removes the speech engine LaunchAgent, removes the <code>freedictate.lua</code> link and its line in <code>init.lua</code>, reloads Hammerspoon, and deletes the speech engine log. It leaves <code>require("hs.ipc")</code> and the rest of your Hammerspoon config alone.</p>
+    <p>The speech model is kept so a reinstall is fast. To remove the model and the <code>~/.freedictate</code> checkout too:</p>
+    <pre><code>./uninstall.sh --purge</code></pre>
+    <p>Hammerspoon, whisper-cpp and ffmpeg stay installed, since other tools may use them. To remove them as well:</p>
+    <pre><code>brew uninstall whisper-cpp ffmpeg &amp;&amp; brew uninstall --cask hammerspoon</code></pre>
+
+    <h2>Troubleshooting</h2>
+    <h3>"Can't reach speech engine"</h3>
+    <p>The <code>whisper-server</code> LaunchAgent isn't answering on port 8178. FreeDictate falls back to <code>whisper-cli</code> when the server is down, but that's slower. Re-run <code>./install.sh</code>, which restarts the agent if it isn't running. To check it yourself:</p>
+    <pre><code>launchctl print gui/$(id -u)/dev.freedictate.whisper-server
+tail ~/Library/Logs/freedictate-whisper-server.log</code></pre>
+    <p>If the installer says <code>whisper-server</code> wasn't found, run <code>brew reinstall whisper-cpp</code>.</p>
+    <h3>"Microphone access needed"</h3>
+    <p>Hammerspoon doesn't have microphone permission. Open System Settings, Privacy &amp; Security, Microphone, and turn on Hammerspoon. Setup has a button that opens this pane.</p>
+    <h3>"Copied instead — press ⌘V to paste"</h3>
+    <p>Hammerspoon doesn't have Accessibility access, so FreeDictate can't paste for you. Your words are on the clipboard. Grant Accessibility access to Hammerspoon and it will paste from then on.</p>
+    <h3>Nothing happens when I press my button</h3>
+    <p>Make sure Hammerspoon is running and the FreeDictate icon is in the menu bar. If not, open Hammerspoon. If it is, choose <strong>Set talk key…</strong> from the menu and press your button again. You can reopen the whole guide with <strong>Setup…</strong>.</p>
+    <h3>I changed something and want a fresh start</h3>
+    <p>Reload Hammerspoon from its menu bar icon with Reload Config, or re-run <code>./install.sh</code>. Both are safe.</p>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../how-it-works/">How FreeDictate works<span>whisper.cpp on your Mac, offline, with any button.</span></a></li>
+      <li><a href="../vs/wispr-flow/">FreeDictate vs Wispr Flow<span>A free, offline alternative with nothing to configure.</span></a></li>
+      <li><a href="../guides/mouse-button-dictation-mac/">Mouse button dictation on Mac<span>Use your middle, back or forward button to talk.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../install/">Install</a><a href="../how-it-works/">How it works</a><a href="../privacy/">Privacy</a><a href="../guides/">Guides</a><a href="../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../vs/wispr-flow/">vs Wispr Flow</a><a href="../vs/superwhisper/">vs Superwhisper</a><a href="../vs/voiceink/">vs VoiceInk</a><a href="../vs/macwhisper/">vs MacWhisper</a><a href="../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>

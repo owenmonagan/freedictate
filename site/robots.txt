@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /freedictate/og.html
 
 Sitemap: https://owenmonagan.github.io/freedictate/sitemap.xml

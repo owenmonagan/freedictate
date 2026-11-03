@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run Whisper Locally on Mac: whisper.cpp, Models and whisper-server | FreeDictate</title>
+<meta name="description" content="How to run OpenAI Whisper locally on Mac with whisper.cpp. Install with Homebrew, download large-v3-turbo q5_0, run whisper-server, and use it for push to talk dictation.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/">
+<meta property="og:title" content="Run Whisper locally on Mac">
+<meta property="og:description" content="whisper.cpp, the large-v3-turbo q5_0 model and whisper-server, on your Mac.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Run Whisper locally on Mac">
+<meta name="twitter:description" content="whisper.cpp, the large-v3-turbo q5_0 model and whisper-server, on your Mac.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "FreeDictate",
+   "item": "https://owenmonagan.github.io/freedictate/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Guides",
+   "item": "https://owenmonagan.github.io/freedictate/guides/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "Whisper on Mac",
+   "item": "https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "TechArticle",
+ "headline": "Run Whisper locally on your Mac",
+ "description": "How to run OpenAI Whisper locally on Mac with whisper.cpp. Install with Homebrew, download large-v3-turbo q5_0, run whisper-server, and use it for push to talk dictation.",
+ "url": "https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "keywords": "run whisper locally mac, whisper.cpp mac, whisper-server, large-v3-turbo, local speech to text",
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "publisher": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "about": {
+  "@type": "SoftwareApplication",
+  "name": "FreeDictate",
+  "operatingSystem": "macOS",
+  "applicationCategory": "UtilitiesApplication",
+  "url": "https://owenmonagan.github.io/freedictate/"
+ }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../../how-it-works/">How it works</a><a href="../../install/">Install</a><a href="../../privacy/">Privacy</a><a href="../../#compare">Compare</a><a href="../../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../../">FreeDictate</a></li><li><a href="../../guides/">Guides</a></li><li><span aria-current="page">Whisper on Mac</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Guide · Whisper · For Mac</p>
+    <h1>Run Whisper locally on your Mac</h1>
+    <p class="dek">whisper.cpp brings OpenAI's Whisper speech models to the Mac with no Python and no cloud. Here's the setup FreeDictate uses, step by step.</p>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <p>Whisper is an open speech recognition model from OpenAI. <strong>whisper.cpp</strong> is an open-source C/C++ port that runs it efficiently on ordinary computers, including Apple silicon Macs. It's what powers FreeDictate. This guide shows how to run it yourself, and how FreeDictate wires it up into one-button dictation.</p>
+    <p>If you just want dictation, the <a href="../../install/">FreeDictate installer</a> does every step below for you.</p>
+
+    <h2>1. Install whisper.cpp</h2>
+    <p>The easiest way is Homebrew:</p>
+    <pre><code>brew install whisper-cpp</code></pre>
+    <p>This gives you two tools you'll use: <code>whisper-cli</code>, which transcribes a file and exits, and <code>whisper-server</code>, which keeps a model loaded and answers HTTP requests.</p>
+
+    <h2>2. Download a model</h2>
+    <p>whisper.cpp uses models in its own <code>ggml</code> format. FreeDictate uses <code>ggml-large-v3-turbo-q5_0.bin</code>:</p>
+    <pre><code>mkdir -p ~/.local/share/whisper
+curl -fL -o ~/.local/share/whisper/ggml-large-v3-turbo-q5_0.bin \
+  https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin</code></pre>
+    <p>It's about 550 MB. Why this one?</p>
+    <ul>
+      <li><strong>large-v3-turbo</strong> is a faster version of Whisper's large-v3 model with fewer decoder layers. It keeps most of large-v3's accuracy at a much lower cost, which is what you want for dictation.</li>
+      <li><strong>q5_0</strong> means the weights are quantized to about 5 bits. The file is much smaller and loads faster, with only a small quality trade-off.</li>
+    </ul>
+    <p>Smaller models such as base or small are quicker but make more mistakes. For dictation, where you read the result right away, large-v3-turbo is a good balance.</p>
+
+    <h2>3. Try it on a file</h2>
+    <p>Whisper expects 16 kHz mono audio. Record a few seconds with ffmpeg, then transcribe:</p>
+    <pre><code>brew install ffmpeg
+ffmpeg -f avfoundation -i ":0" -ar 16000 -ac 1 -t 5 test.wav
+whisper-cli -m ~/.local/share/whisper/ggml-large-v3-turbo-q5_0.bin -f test.wav</code></pre>
+    <p>macOS will ask for microphone permission for your terminal the first time. If <code>:0</code> isn't your mic, list devices with <code>ffmpeg -f avfoundation -list_devices true -i ""</code>.</p>
+
+    <h2>4. Keep it loaded with whisper-server</h2>
+    <p><code>whisper-cli</code> loads the model every time it runs, which adds a delay. For dictation you want the model already in memory. That's what <code>whisper-server</code> is for:</p>
+    <pre><code>whisper-server -m ~/.local/share/whisper/ggml-large-v3-turbo-q5_0.bin \
+  --host 127.0.0.1 --port 8178 -l en</code></pre>
+    <p>Binding to <code>127.0.0.1</code> means only your Mac can reach it. Send it audio with a POST to <code>/inference</code>:</p>
+    <pre><code>curl -s http://127.0.0.1:8178/inference -F file=@test.wav</code></pre>
+
+    <h2>5. Run it at login with launchd</h2>
+    <p>To keep the server running, FreeDictate installs a LaunchAgent at <code>~/Library/LaunchAgents/dev.freedictate.whisper-server.plist</code>. It runs exactly the command above, with <code>RunAtLoad</code> and <code>KeepAlive</code> so it starts at login and restarts if it stops. Logs go to <code>~/Library/Logs/freedictate-whisper-server.log</code>. Check on it with:</p>
+    <pre><code>launchctl print gui/$(id -u)/dev.freedictate.whisper-server</code></pre>
+
+    <h2>6. Turn it into push to talk dictation</h2>
+    <p>A server on its own doesn't type for you. FreeDictate adds the missing pieces with Hammerspoon:</p>
+    <ol>
+      <li>It listens for your talk button: any key, combo, modifier, or the middle, back or forward mouse button.</li>
+      <li>On press it starts ffmpeg recording 16 kHz mono to a temporary file, with a live level meter.</li>
+      <li>On release (or a second tap) it posts the audio to <code>127.0.0.1:8178</code>. If the server is down, it falls back to <code>whisper-cli</code>.</li>
+      <li>It pastes the text into the focused app with <kbd>⌘V</kbd>, then restores your clipboard.</li>
+    </ol>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Controls">
+      <table>
+        <thead><tr><th scope="col">Do this</th><th scope="col">What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hold</strong> your button, talk, let go</td><td>Recording stops when you release. Your words are pasted.</td></tr>
+          <tr><td><strong>Tap</strong> your button, talk, tap again</td><td>Hands-free. A press shorter than 0.35 seconds counts as a tap.</td></tr>
+          <tr><td>Press <kbd>Esc</kbd> while listening</td><td>Cancels. Nothing is pasted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Performance notes</h2>
+    <ul>
+      <li><strong>Apple silicon</strong> is recommended. whisper.cpp is well optimized for it.</li>
+      <li><strong>Intel Macs</strong> work, but expect longer waits for transcription.</li>
+      <li><strong>Memory:</strong> the server keeps the model loaded, so it uses some RAM while running. That's the trade for instant results.</li>
+    </ul>
+
+    <h2>Skip the manual steps</h2>
+    <p>Everything above is what <code>./install.sh</code> does. It's idempotent, so running it again repairs or updates the setup, and <code>./uninstall.sh</code> removes the LaunchAgent and Hammerspoon hooks cleanly.</p>
+    <pre><code>git clone https://github.com/owenmonagan/freedictate.git
+cd freedictate
+./install.sh</code></pre>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../../install/">Install FreeDictate<span>One command does all of this for you.</span></a></li>
+      <li><a href="../../vs/macwhisper/">FreeDictate vs MacWhisper<span>Live dictation versus file transcription.</span></a></li>
+      <li><a href="../offline-speech-to-text-mac/">Offline speech to text on Mac<span>Private dictation that works without internet.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../../install/">Install</a><a href="../../how-it-works/">How it works</a><a href="../../privacy/">Privacy</a><a href="../../guides/">Guides</a><a href="../../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../../vs/wispr-flow/">vs Wispr Flow</a><a href="../../vs/superwhisper/">vs Superwhisper</a><a href="../../vs/voiceink/">vs VoiceInk</a><a href="../../vs/macwhisper/">vs MacWhisper</a><a href="../../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>

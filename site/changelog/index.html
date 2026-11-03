@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreeDictate Changelog</title>
+<meta name="description" content="Every FreeDictate release and change, in plain language. Free, offline, one-button dictation for Mac.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/changelog/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/changelog/">
+<meta property="og:title" content="FreeDictate changelog">
+<meta property="og:description" content="What changed in FreeDictate, and when.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FreeDictate changelog">
+<meta name="twitter:description" content="What changed in FreeDictate, and when.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "FreeDictate",
+   "item": "https://owenmonagan.github.io/freedictate/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Changelog",
+   "item": "https://owenmonagan.github.io/freedictate/changelog/"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "FreeDictate changelog",
+ "description": "Every FreeDictate release and change, in plain language. Free, offline, one-button dictation for Mac.",
+ "url": "https://owenmonagan.github.io/freedictate/changelog/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/changelog/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "publisher": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "about": {
+  "@type": "SoftwareApplication",
+  "name": "FreeDictate",
+  "operatingSystem": "macOS",
+  "applicationCategory": "UtilitiesApplication",
+  "url": "https://owenmonagan.github.io/freedictate/"
+ }
+}
+</script>
+</head>
+<body>
+<!--
+  FreeDictate subpage skeleton. Copy these parts verbatim into new pages:
+    [SKELETON: nav]     <a class="skip"> + <header class="nav"> below. Paths use ../ (add one ../ per extra folder level).
+    [SKELETON: crumbs]  <nav class="crumbs"> inside <main class="page">. Keep it in sync with the BreadcrumbList JSON-LD.
+    [SKELETON: head]    <header class="page-head"> with eyebrow, the page's one h1, and .dek.
+    [PAGE CONTENT]      <article class="prose"> holds the unique content (h2/h3, p, ul/ol, pre, .table-wrap > table, .callout).
+    [SKELETON: related] <aside class="related"> link list.
+    [SKELETON: footer]  <footer class="footer"> below.
+  No hud.js or main.js on subpages. Do not add the .reveal class (it needs main.js).
+-->
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../how-it-works/">How it works</a><a href="../install/">Install</a><a href="../privacy/">Privacy</a><a href="../#compare">Compare</a><a href="../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../">FreeDictate</a></li><li><span aria-current="page">Changelog</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Changelog</p>
+    <h1>Changelog</h1>
+    <p class="dek">What changed in FreeDictate, newest first. The full history is on GitHub.</p>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <h2>3 November 2026</h2>
+    <h3>First release</h3>
+    <p>FreeDictate is out: one-button, free, offline dictation for Mac.</p>
+    <ul>
+      <li>Hold any key, combo, modifier or mouse button to talk, or tap to start and tap again to stop. <kbd>Esc</kbd> cancels.</li>
+      <li>Speech is transcribed on your Mac by whisper.cpp with the large-v3 turbo model, through a local speech engine that starts at login.</li>
+      <li>Your words are pasted into the app you're using, and your clipboard is restored.</li>
+      <li>A small recording pill shows a live level meter while you talk.</li>
+      <li>One-command install and a clean uninstall.</li>
+    </ul>
+    <h3>Guided Setup</h3>
+    <ul>
+      <li>A step-by-step Setup window walks you through the microphone, Accessibility, the speech engine, start at login and choosing your button.</li>
+      <li>A new <strong>Try it</strong> step lets you dictate live and see your words before you finish.</li>
+    </ul>
+    <h3>Project notes</h3>
+    <ul>
+      <li>Added contributor documentation covering how FreeDictate works and its design.</li>
+    </ul>
+    <p>See every commit on <a href="https://github.com/owenmonagan/freedictate/commits/main">GitHub</a>.</p>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../how-it-works/">How FreeDictate works<span>whisper.cpp on your Mac, offline, with any button.</span></a></li>
+      <li><a href="../privacy/">Privacy<span>Nothing leaves your Mac. Here is the proof.</span></a></li>
+      <li><a href="../install/">Install FreeDictate<span>One command, plus uninstall and fixes.</span></a></li>
+      <li><a href="../guides/">Guides<span>Set up your button and get more from dictation.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../install/">Install</a><a href="../how-it-works/">How it works</a><a href="../privacy/">Privacy</a><a href="../guides/">Guides</a><a href="../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../vs/wispr-flow/">vs Wispr Flow</a><a href="../vs/superwhisper/">vs Superwhisper</a><a href="../vs/voiceink/">vs VoiceInk</a><a href="../vs/macwhisper/">vs MacWhisper</a><a href="../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>

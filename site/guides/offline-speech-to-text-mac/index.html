@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline Speech to Text on Mac: Private, Free Dictation | FreeDictate</title>
+<meta name="description" content="How to get offline speech to text on Mac. FreeDictate runs whisper.cpp on your Mac, so dictation works without internet and your voice never leaves the machine. Free.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/">
+<meta property="og:title" content="Offline speech to text on Mac">
+<meta property="og:description" content="Private dictation that works without internet. whisper.cpp on your Mac, free.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Offline speech to text on Mac">
+<meta name="twitter:description" content="Private dictation that works without internet. whisper.cpp on your Mac, free.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "FreeDictate",
+   "item": "https://owenmonagan.github.io/freedictate/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Guides",
+   "item": "https://owenmonagan.github.io/freedictate/guides/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "Offline speech to text",
+   "item": "https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "TechArticle",
+ "headline": "Offline speech to text on Mac",
+ "description": "How to get offline speech to text on Mac. FreeDictate runs whisper.cpp on your Mac, so dictation works without internet and your voice never leaves the machine. Free.",
+ "url": "https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "keywords": "offline speech to text mac, private dictation mac, local speech recognition mac",
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "publisher": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "about": {
+  "@type": "SoftwareApplication",
+  "name": "FreeDictate",
+  "operatingSystem": "macOS",
+  "applicationCategory": "UtilitiesApplication",
+  "url": "https://owenmonagan.github.io/freedictate/"
+ }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../../how-it-works/">How it works</a><a href="../../install/">Install</a><a href="../../privacy/">Privacy</a><a href="../../#compare">Compare</a><a href="../../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../../">FreeDictate</a></li><li><a href="../../guides/">Guides</a></li><li><span aria-current="page">Offline speech to text</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Guide · Offline · Private</p>
+    <h1>Offline speech to text on Mac</h1>
+    <p class="dek">Dictation that works on a plane, keeps your voice on your Mac, and costs nothing. Here's how it works and how to set it up.</p>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <p>Many dictation tools send your audio to a server to be transcribed. That's fine for some people. But if you dictate work email, client notes or anything personal, you may prefer that the recording never leaves your computer. And you may want dictation that still works with no Wi-Fi.</p>
+    <p>FreeDictate does all speech recognition on your Mac with <strong>whisper.cpp</strong>, an open-source engine for OpenAI's Whisper models. Once it's installed, it doesn't need the internet to turn speech into text.</p>
+
+    <h2>What "offline" means here</h2>
+    <p>It helps to be specific about what happens to your voice:</p>
+    <ol>
+      <li><strong>Recording.</strong> When you press your talk button, ffmpeg records your microphone as 16 kHz mono audio to a temporary file on your Mac. It records only while you're talking.</li>
+      <li><strong>Transcribing.</strong> The audio is sent to <code>whisper-server</code> at <code>127.0.0.1:8178</code>. That address is your own Mac. Nothing outside it can reach the server.</li>
+      <li><strong>Pasting.</strong> The text is pasted into the app with focus using <kbd>⌘V</kbd>, and your clipboard is restored afterwards.</li>
+    </ol>
+    <p>If the local server isn't running, FreeDictate falls back to <code>whisper-cli</code>, which also runs on your Mac. Either way, there's no cloud step.</p>
+    <div class="callout callout-ok">
+      <p class="callout-title">No account, no telemetry, no subscription.</p>
+      <p>There's nothing to sign in to. FreeDictate is MIT-licensed and the code is on GitHub, so you can read exactly what it does.</p>
+    </div>
+
+    <h2>The one time it uses the internet</h2>
+    <p>Installing needs a connection. The installer uses Homebrew to install whisper-cpp, ffmpeg and Hammerspoon, and downloads the speech model, <code>ggml-large-v3-turbo-q5_0.bin</code> (about 550 MB), from the whisper.cpp model repository. That download happens once. After that, dictation works offline.</p>
+
+    <h2>Set it up</h2>
+    <ol>
+      <li>Run the installer while you're online:
+    <pre><code>git clone https://github.com/owenmonagan/freedictate.git
+cd freedictate
+./install.sh</code></pre>
+      </li>
+      <li>Allow Microphone and Accessibility access for Hammerspoon in the Setup window.</li>
+      <li>Pick your talk button: any key, combo, modifier, or the middle, back or forward mouse button.</li>
+      <li>Try it in the live test. Then, if you like, turn off Wi-Fi and try again.</li>
+    </ol>
+
+    <h2>Check it yourself</h2>
+    <p>You don't have to take this on trust. A few ways to confirm everything stays local:</p>
+    <ul>
+      <li><strong>Turn off Wi-Fi</strong> and dictate. It still works.</li>
+      <li><strong>Look at the speech engine.</strong> It's a LaunchAgent you can inspect:
+        <pre><code>launchctl print gui/$(id -u)/dev.freedictate.whisper-server</code></pre>
+        Its plist at <code>~/Library/LaunchAgents/dev.freedictate.whisper-server.plist</code> shows it bound to <code>--host 127.0.0.1</code>.</li>
+      <li><strong>Read the code.</strong> <code>app/dictate.lua</code> is a single Hammerspoon file. The only network address in it is <code>127.0.0.1:8178</code>.</li>
+    </ul>
+
+    <h2>Is offline accuracy good enough?</h2>
+    <p>Whisper large-v3-turbo is a large, modern speech model. The quantized q5_0 version FreeDictate uses is a fraction of the size of the full model while staying close in quality. In everyday use it handles natural speech, punctuation and long sentences well. The speech engine is set to English.</p>
+    <p>Speed depends on your Mac. Apple silicon is recommended. Intel Macs work, but are slower.</p>
+
+    <h2>Using it</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Controls">
+      <table>
+        <thead><tr><th scope="col">Do this</th><th scope="col">What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hold</strong> your button, talk, let go</td><td>Recording stops when you release. Your words are pasted.</td></tr>
+          <tr><td><strong>Tap</strong> your button, talk, tap again</td><td>Hands-free. A press shorter than 0.35 seconds counts as a tap.</td></tr>
+          <tr><td>Press <kbd>Esc</kbd> while listening</td><td>Cancels. Nothing is pasted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Offline vs Apple Dictation</h2>
+    <p>macOS has built-in dictation, and on recent Macs some languages can be processed on-device. It's a good option and it's already there. FreeDictate is different in a few ways: you start it with one button you choose, including a mouse button; you can hold to talk or tap for hands-free; and the whole pipeline is open source, so its privacy is something you can verify rather than a setting. See the full <a href="../../vs/apple-dictation/">comparison with Apple Dictation</a>.</p>
+
+    <h2>Removing it</h2>
+    <p><code>./uninstall.sh</code> stops the speech engine and removes FreeDictate's Hammerspoon hooks. <code>./uninstall.sh --purge</code> also deletes the model. Nothing is left running in the background.</p>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../../install/">Install FreeDictate<span>One command. Free, offline dictation for Mac.</span></a></li>
+      <li><a href="../../vs/apple-dictation/">FreeDictate vs Apple Dictation<span>What changes when you switch to one button.</span></a></li>
+      <li><a href="../whisper-on-mac/">Run Whisper locally on Mac<span>whisper.cpp, the model and the local server.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../../install/">Install</a><a href="../../how-it-works/">How it works</a><a href="../../privacy/">Privacy</a><a href="../../guides/">Guides</a><a href="../../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../../vs/wispr-flow/">vs Wispr Flow</a><a href="../../vs/superwhisper/">vs Superwhisper</a><a href="../../vs/voiceink/">vs VoiceInk</a><a href="../../vs/macwhisper/">vs MacWhisper</a><a href="../../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>

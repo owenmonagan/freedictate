@@ -144,3 +144,10 @@ button{font:inherit}
 .js .reveal.in{opacity:1;transform:none;transition:opacity 420ms var(--ease-enter),transform 420ms var(--ease-enter);transition-delay:var(--d,0ms)}
 @media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none}}
 .window:has(.demo-ctl:not([hidden])) .hud-stage{bottom:52px}
+
+/* footer + compare links (shared by home and subpages) */
+.foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s2) var(--s5);font-size:var(--fs-footnote)}
+.foot-links a{color:var(--label-2)}
+.foot-links a:hover{color:var(--label)}
+.foot-links+.foot-links{margin-top:calc(-1 * var(--s3))}
+.cmp-more{text-align:center;font-size:var(--fs-callout);color:var(--label-2);margin-top:var(--s5);text-wrap:balance}

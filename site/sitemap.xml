@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://owenmonagan.github.io/freedictate/alternatives/superwhisper/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/alternatives/wispr-flow/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/changelog/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/dictation-for-coding/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/dictation-for-rsi/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/mouse-button-dictation-mac/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/offline-speech-to-text-mac/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/push-to-talk-dictation-mac/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/guides/whisper-on-mac/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/how-it-works/</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://owenmonagan.github.io/freedictate/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/install/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/privacy/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/vs/apple-dictation/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/vs/macwhisper/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/vs/superwhisper/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/vs/voiceink/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://owenmonagan.github.io/freedictate/vs/wispr-flow/</loc><lastmod>2026-11-03</lastmod></url>
 </urlset>

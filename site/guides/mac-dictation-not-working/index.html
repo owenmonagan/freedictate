@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mac Dictation Not Working? Fixes for Apple Dictation and FreeDictate</title>
+<meta name="description" content="Mac dictation not working? Step-by-step fixes for Apple Dictation and FreeDictate: microphone permission, Accessibility, the talk key, and the local speech engine.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/">
+<meta property="og:title" content="Mac dictation not working? Fixes">
+<meta property="og:description" content="Fix microphone, Accessibility, talk key and speech engine problems on Mac.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mac dictation not working? Fixes">
+<meta name="twitter:description" content="Fix microphone, Accessibility, talk key and speech engine problems on Mac.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../pages.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "FreeDictate",
+   "item": "https://owenmonagan.github.io/freedictate/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Guides",
+   "item": "https://owenmonagan.github.io/freedictate/guides/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "Dictation not working",
+   "item": "https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "TechArticle",
+ "headline": "Mac dictation not working? Here's how to fix it",
+ "description": "Mac dictation not working? Step-by-step fixes for Apple Dictation and FreeDictate: microphone permission, Accessibility, the talk key, and the local speech engine.",
+ "url": "https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/",
+ "mainEntityOfPage": "https://owenmonagan.github.io/freedictate/guides/mac-dictation-not-working/",
+ "image": "https://owenmonagan.github.io/freedictate/assets/og.png",
+ "datePublished": "2026-11-03",
+ "dateModified": "2026-11-03",
+ "inLanguage": "en",
+ "keywords": "mac dictation not working, dictation not working macbook, fix dictation mac",
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "publisher": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ },
+ "about": {
+  "@type": "SoftwareApplication",
+  "name": "FreeDictate",
+  "operatingSystem": "macOS",
+  "applicationCategory": "UtilitiesApplication",
+  "url": "https://owenmonagan.github.io/freedictate/"
+ }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- [SKELETON: nav] -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="../../">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="../../how-it-works/">How it works</a><a href="../../install/">Install</a><a href="../../privacy/">Privacy</a><a href="../../#compare">Compare</a><a href="../../guides/">Guides</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+<!-- [/SKELETON: nav] -->
+
+<main id="main" class="page">
+  <!-- [SKELETON: crumbs] -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol><li><a href="../../">FreeDictate</a></li><li><a href="../../guides/">Guides</a></li><li><span aria-current="page">Dictation not working</span></li></ol>
+  </nav>
+  <!-- [/SKELETON: crumbs] -->
+
+  <!-- [SKELETON: head] -->
+  <header class="page-head">
+    <p class="eyebrow">Guide · Troubleshooting · For Mac</p>
+    <h1>Mac dictation not working? Here's how to fix it</h1>
+    <p class="dek">Most dictation problems on a Mac come down to three things: the microphone, a permission, or the thing doing the transcribing. Work through them in order.</p>
+  </header>
+  <!-- [/SKELETON: head] -->
+
+  <!-- [PAGE CONTENT] -->
+  <article class="prose">
+    <p>This guide covers both Apple's built-in Dictation and FreeDictate. Start with the general checks, since they apply to every dictation app, then jump to the section for the tool you use.</p>
+
+    <h2>First: check the microphone</h2>
+    <ol>
+      <li>Open <strong>System Settings → Sound → Input</strong>. Pick the microphone you expect to use and speak. The input level should move.</li>
+      <li>If you use AirPods or a USB headset, make sure it's actually selected as the input. Macs often switch inputs when a device connects.</li>
+      <li>Raise the input volume if the level barely moves.</li>
+    </ol>
+    <p>If the level doesn't move here, no dictation app will work. Fix the hardware or input selection first.</p>
+
+    <h2>Apple Dictation not working</h2>
+    <ul>
+      <li><strong>Make sure it's on.</strong> Go to <strong>System Settings → Keyboard</strong> and turn on Dictation. Note the shortcut it shows.</li>
+      <li><strong>Check the shortcut.</strong> If another app uses the same shortcut, pick a different one in the Dictation settings.</li>
+      <li><strong>Check the language.</strong> Dictation uses the language set in Keyboard settings. Speaking a different language gives poor results.</li>
+      <li><strong>Check the field.</strong> Click into a text field first. Dictation can't type into something that doesn't accept text.</li>
+      <li><strong>Restart.</strong> Turning Dictation off and on, or restarting the Mac, clears many stuck states.</li>
+    </ul>
+    <p>If Apple Dictation keeps letting you down, or you want a different way to start it, FreeDictate is a free alternative that you start with one button of your choosing.</p>
+
+    <h2>FreeDictate not working</h2>
+    <p>FreeDictate runs inside Hammerspoon and uses a local speech engine. Its messages tell you which part needs attention.</p>
+
+    <h3>Nothing happens when I press my button</h3>
+    <ol>
+      <li>Check that Hammerspoon is running and the FreeDictate icon is in the menu bar. If not, open Hammerspoon.</li>
+      <li>Choose <strong>Set talk key…</strong> from the menu and press your button again. It can be any key, combo, modifier, or the middle, back or forward mouse button.</li>
+      <li>If you use a mouse with its own software, make sure that software isn't remapping the button you chose.</li>
+      <li>Still nothing? Choose <strong>Reset to ⌥Space</strong> and try <kbd>⌥</kbd> <kbd>Space</kbd>.</li>
+    </ol>
+
+    <h3>"Microphone access needed"</h3>
+    <p>Hammerspoon doesn't have microphone permission. Open <strong>System Settings → Privacy &amp; Security → Microphone</strong> and turn on Hammerspoon. The Setup window has a button that opens this pane. You can reopen Setup from the menu with <strong>Setup…</strong>.</p>
+
+    <h3>"Copied instead — press ⌘V to paste"</h3>
+    <p>Hammerspoon doesn't have Accessibility access, so FreeDictate can't paste for you. Your words are on the clipboard, so press <kbd>⌘V</kbd> now. Then turn on Hammerspoon in <strong>System Settings → Privacy &amp; Security → Accessibility</strong>. If it's already on but pasting still fails, turn it off and on again.</p>
+
+    <h3>"Can't reach speech engine"</h3>
+    <p>The local <code>whisper-server</code> isn't answering on <code>127.0.0.1:8178</code>. FreeDictate falls back to <code>whisper-cli</code> when the server is down, but that's slower. To fix it:</p>
+    <ol>
+      <li>Re-run <code>./install.sh</code> from the FreeDictate folder, or <code>~/.freedictate</code> if you used the one-liner. It's safe to re-run and restarts the agent if needed.</li>
+      <li>Check the agent and its log:
+        <pre><code>launchctl print gui/$(id -u)/dev.freedictate.whisper-server
+tail ~/Library/Logs/freedictate-whisper-server.log</code></pre></li>
+      <li>If the installer says <code>whisper-server</code> wasn't found, run <code>brew reinstall whisper-cpp</code>.</li>
+      <li>If the log complains about the model, make sure <code>~/.local/share/whisper/ggml-large-v3-turbo-q5_0.bin</code> exists. Re-running the installer downloads it again if it's missing.</li>
+    </ol>
+
+    <h3>The level meter doesn't move</h3>
+    <p>The pill at the bottom of the screen shows a live level while you talk. If it stays flat, FreeDictate is recording the wrong input or none at all. Go back to the microphone checks above.</p>
+
+    <h3>Words are pasted in the wrong place</h3>
+    <p>Text goes to whichever app has focus when the paste happens. Click into the field before you start, and stay there until the words appear.</p>
+
+    <h3>It started recording by accident</h3>
+    <p>Press <kbd>Esc</kbd> to cancel. Nothing is pasted. A press shorter than 0.35 seconds counts as a tap and starts hands-free recording, so a quick accidental press can start it. Tap again or press <kbd>Esc</kbd> to stop.</p>
+
+    <h2>Fresh start</h2>
+    <p>Reload Hammerspoon from its menu bar icon with <strong>Reload Config</strong>, or re-run <code>./install.sh</code>. If you want to start completely clean, run <code>./uninstall.sh</code>, then install again. The speech model is kept unless you use <code>--purge</code>, so reinstalling is quick.</p>
+
+    <h2>Quick reference</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Controls">
+      <table>
+        <thead><tr><th scope="col">Do this</th><th scope="col">What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hold</strong> your button, talk, let go</td><td>Recording stops when you release. Your words are pasted.</td></tr>
+          <tr><td><strong>Tap</strong> your button, talk, tap again</td><td>Hands-free. A press shorter than 0.35 seconds counts as a tap.</td></tr>
+          <tr><td>Press <kbd>Esc</kbd> while listening</td><td>Cancels. Nothing is pasted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+  <!-- [/PAGE CONTENT] -->
+
+  <!-- [SKELETON: related] -->
+  <aside class="related" aria-labelledby="related-h">
+    <h2 id="related-h">Related</h2>
+    <ul>
+      <li><a href="../../install/">Install FreeDictate<span>Setup, uninstall and troubleshooting.</span></a></li>
+      <li><a href="../../vs/apple-dictation/">FreeDictate vs Apple Dictation<span>What changes when you switch to one button.</span></a></li>
+      <li><a href="../offline-speech-to-text-mac/">Offline speech to text on Mac<span>Private dictation that works without internet.</span></a></li>
+    </ul>
+  </aside>
+  <!-- [/SKELETON: related] -->
+</main>
+
+<!-- [SKELETON: footer] -->
+<footer class="footer">
+  <h2>Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <nav class="foot-links" aria-label="Site">
+    <a href="../../install/">Install</a><a href="../../how-it-works/">How it works</a><a href="../../privacy/">Privacy</a><a href="../../guides/">Guides</a><a href="../../changelog/">Changelog</a>
+  </nav>
+  <nav class="foot-links" aria-label="Compare">
+    <a href="../../vs/wispr-flow/">vs Wispr Flow</a><a href="../../vs/superwhisper/">vs Superwhisper</a><a href="../../vs/voiceink/">vs VoiceInk</a><a href="../../vs/macwhisper/">vs MacWhisper</a><a href="../../vs/apple-dictation/">vs Apple Dictation</a>
+  </nav>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+<!-- [/SKELETON: footer] -->
+</body>
+</html>
