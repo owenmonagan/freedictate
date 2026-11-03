@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUD Preview</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  html,body{margin:0;height:100%;font-family:var(--font);background:#1b1f2a;color:var(--label)}
+  .desk{position:fixed;inset:0;background:
+    radial-gradient(1200px 700px at 20% 10%, #6d8ec7 0%, transparent 60%),
+    radial-gradient(900px 600px at 85% 80%, #c78e6d 0%, transparent 55%),
+    radial-gradient(800px 500px at 60% 30%, #8a6dc7 0%, transparent 60%),
+    linear-gradient(160deg,#2b3550,#1a1d27)}
+  .desk.light{background:radial-gradient(1200px 700px at 20% 10%,#dfe8f7,transparent 60%),radial-gradient(900px 600px at 85% 80%,#f6e2d4,transparent 55%),linear-gradient(160deg,#eef0f5,#d9dde6)}
+  .win{position:absolute;left:50%;top:14%;transform:translateX(-50%);width:min(560px,90vw);height:44%;
+    background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+    border:var(--glass-border);border-radius:var(--r-md);box-shadow:var(--shadow-window)}
+  .win .bar{height:28px;display:flex;gap:8px;align-items:center;padding:0 12px}
+  .win .bar i{width:12px;height:12px;border-radius:50%;background:var(--fill-2)}
+  .win .field{margin:24px;padding:12px;border-radius:var(--r-sm);background:var(--bg-elevated);font-size:var(--fs-callout);min-height:24px}
+  iframe{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);width:320px;height:96px;border:0;background:transparent}
+  iframe.outline{outline:1px dashed rgba(255,255,255,.35)}
+  .panel{position:fixed;top:16px;left:16px;right:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+    border:var(--glass-border);border-radius:var(--r-md);padding:10px 12px;font-size:var(--fs-footnote)}
+  button,select,input{font:inherit}
+  button{border:0;border-radius:var(--r-pill);padding:6px 12px;background:var(--fill);color:var(--label);cursor:pointer}
+  button:hover{background:var(--fill-2)} button.primary{background:var(--accent);color:var(--on-accent)}
+  .sep{width:1px;height:20px;background:var(--separator)}
+  label{display:flex;gap:6px;align-items:center}
+  #readout{font-family:var(--font-mono);color:var(--label-2);margin-left:auto}
+</style>
+</head>
+<body>
+<div class="desk" id="desk"></div>
+<div class="win"><div class="bar"><i></i><i></i><i></i></div><div class="field" id="field"></div></div>
+<iframe id="hud" src="hud.html" title="HUD" allowtransparency="true"></iframe>
+
+<div class="panel">
+  <button data-s="listening">Listening</button>
+  <button data-s="listening" data-m="hold">Hold</button>
+  <button data-s="listening" data-m="tap">Tap</button>
+  <button data-s="transcribing">Transcribing</button>
+  <button data-s="done" data-t="Let's meet at four on Thursday to go over the numbers">Done</button>
+  <button data-s="done" data-t="">Done (empty)</button>
+  <button data-s="cancelled">Cancelled</button>
+  <button data-s="error" data-msg="Can't reach speech engine — restart it from the menu bar">Error</button>
+  <button data-s="hidden">Hidden</button>
+  <span class="sep"></span>
+  <button class="primary" id="flowHold">Run hold flow</button>
+  <button class="primary" id="flowTap">Run tap flow</button>
+  <button id="flowEsc">Esc mid-listen</button>
+  <button id="spam">Interrupt test</button>
+  <span class="sep"></span>
+  <label><input type="checkbox" id="gen" checked> Fake level</label>
+  <label>Level <input type="range" id="lvl" min="0" max="100" value="0"></label>
+  <label><input type="checkbox" id="outline"> Window bounds</label>
+  <label><input type="checkbox" id="light"> Light desktop</label>
+  <span id="readout"></span>
+</div>
+
+<script>
+const frame = document.getElementById('hud');
+let hudState = null, EXIT_MS = 200;
+addEventListener('message', e => { if (e.data && e.data.hudState) { hudState = e.data.hudState; EXIT_MS = e.data.EXIT_MS; } });
+const W = () => ({
+  setState: (state, payload) => frame.contentWindow.postMessage({ hud: 'setState', state, payload }, '*'),
+  setLevel: level => frame.contentWindow.postMessage({ hud: 'setLevel', level }, '*'),
+  getState: () => hudState, get EXIT_MS() { return EXIT_MS; }
+});
+const timers = [];
+const clear = () => { while (timers.length) clearTimeout(timers.pop()); };
+const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+let hideTimer = 0;
+function send(s, p) {
+  clearTimeout(hideTimer);
+  W().setState(s, p);
+  if (s === 'hidden') hideTimer = setTimeout(() => {}, W().EXIT_MS + 30); // Lua would hide the window here
+}
+document.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
+  clear();
+  const p = {};
+  if (b.dataset.m) p.mode = b.dataset.m;
+  if ('t' in b.dataset) p.text = b.dataset.t;
+  if (b.dataset.msg) p.message = b.dataset.msg;
+  send(b.dataset.s, p);
+});
+
+// fake level generator: sine + noise, speech-like syllables
+let t0 = performance.now();
+setInterval(() => {
+  const st = W().getState && W().getState();
+  document.getElementById('readout').textContent = st ? `${st.state}${st.mode ? ' · ' + st.mode : ''} · ${st.width}px` : '';
+  if (!st || st.state !== 'listening') return;
+  let x;
+  if (document.getElementById('gen').checked) {
+    const t = (performance.now() - t0) / 1000;
+    const env = Math.max(0, Math.sin(t * 5.3) * 0.6 + Math.sin(t * 1.7) * 0.4);
+    x = Math.min(1, env * (0.7 + Math.random() * 0.4));
+    if (Math.sin(t * 0.9) < -0.7) x *= 0.05; // pauses between phrases
+  } else x = document.getElementById('lvl').value / 100;
+  W().setLevel(Math.round(x * 100) / 100);
+}, 1000 / 15);
+
+const TEXT = "Let's meet at four on Thursday to go over the numbers";
+function typeInto(text) {
+  const f = document.getElementById('field'); f.textContent = '';
+  let i = 0; const iv = setInterval(() => { f.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(iv); }, 1000 / 28);
+}
+document.getElementById('flowHold').onclick = () => {
+  clear(); send('listening');
+  at(350, () => send('listening', { mode: 'hold' }));
+  at(2600, () => send('transcribing'));
+  at(3500, () => { send('done', { text: TEXT }); typeInto(TEXT); });
+  at(4200, () => send('hidden'));
+};
+document.getElementById('flowTap').onclick = () => {
+  clear(); send('listening');
+  at(180, () => send('listening', { mode: 'tap' }));
+  at(2800, () => send('transcribing'));
+  at(3600, () => send('done', { text: '' }));
+  at(4020, () => send('hidden'));
+};
+document.getElementById('flowEsc').onclick = () => {
+  clear(); send('listening');
+  at(180, () => send('listening', { mode: 'tap' }));
+  at(1500, () => send('cancelled'));
+  at(2000, () => send('hidden'));
+};
+document.getElementById('spam').onclick = () => {
+  clear();
+  ['listening','transcribing','done','hidden','listening'].forEach((s, i) =>
+    at(i * 90, () => send(s, s === 'done' ? { text: 'Quick test' } : {})));
+  at(600, () => send('cancelled')); at(1100, () => send('hidden'));
+};
+document.getElementById('outline').onchange = e => frame.classList.toggle('outline', e.target.checked);
+document.getElementById('light').onchange = e => document.getElementById('desk').classList.toggle('light', e.target.checked);
+</script>
+</body>
+</html>

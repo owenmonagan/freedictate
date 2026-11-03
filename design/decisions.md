@@ -1,0 +1,32 @@
+# Dictate: Committee Decision Log
+
+The chair resolved each conflict. Rules of precedence: the brief beats taste, tokens beat anti-sameness, and Engineering's veto is final on feasibility only.
+
+1. **HUD glass is faked.** Options were real `backdrop-filter` (Visual, Motion) or a solid rgba fill with a hairline and shadow (Engineering). A transparent WKWebView only blurs its own pixels, never the desktop behind it. This is an Engineering veto, and all leads conceded. Real blur stays on the site, demo and onboarding.
+2. **Pill height is 40px, radius 20.** Visual proposed 36, Motion and UX 44, Engineering and Visual's critique 40. 36 is too small for the meter plus the keycap, and 44 reads like an iOS toast. The HUD is one line (see #8), so the 44 argument (a second line) falls away.
+3. **The Lua window is 320×96.** Engineering asked for it. It leaves slack for the shake, the overshoot and the shadow. The page stays viewport-agnostic, so the contract's "approx 280x72" is still honored.
+4. **Widths are hold 176 / tap 216 / transcribing 168 / done fit 120–264 / empty-done 148 / cancelled 132 / error ≤264.** Four width sets were proposed. Visual's unified table won as the base, with an added empty-done width. Widths are measured once per transition.
+5. **The morph is 3-part: caps plus a scaled slab.** Options were scaleX on the whole background (Visual, Motion), fixed-width crossfaded shells (Engineering) or 3-part caps (Motion's critique). Plain scaleX stretches the end caps. The 3-part build stays compositor-only, and crossfaded shells remain the fallback.
+6. **EXIT_MS is a single constant of 200.** The options were 200 (Motion), 180 (Engineering) and `exitMs(state)` (UX, Engineering). It covers every exit, needs no extra API, and is the same under reduced motion.
+7. **Done holds 700ms with a preview and 420ms for plain or empty.** Proposals were 400, 420, 600 and 900ms; this follows Engineering's critique. A preview needs reading time. Paste fires on entering done, so the hold costs the user nothing.
+8. **Done shows "Pasted" plus an inline 24-character preview in secondary color, on one line.** Copy wanted a second line, UX a quoted 28-character main label, Visual "Pasted" only. Copy's content won, but laid out on one line to fit the 40px capsule.
+9. **Empty text shows "Nothing heard" with a neutral open circle and no check.** Copy's critique made this call. Claiming a paste that did not happen would be false.
+10. **No hint lines in the HUD. Tap mode shows the lock plus the Esc keycap.** Options were Copy's auto-hiding hints, Motion's label suffix, and UX dropping the lock. Two lines at 40px read as clutter. The glyphs carry the meaning, and the hint copy moves to onboarding step 4. The lock is kept because hold and tap need a non-motion difference under reduced motion.
+11. **Mode entry is tap-pending, then retarget at 0.35s.** Engineering showed that the mode is unknowable before the threshold, and it was unanimous in the critiques. There is never a re-enter.
+12. **Error color is amber only, with no shake or bounce.** UX had allowed red. Red is reserved for live capture, and this was unanimous.
+13. **Error copy never names the engine.** UX wrote "Whisper", Visual "Server". This follows Copy's no-infrastructure-names rule, using Copy's labels plus UX's "restart it from the menu bar" fix verb.
+14. **On paste failure Lua skips the clipboard restore, and the copy reads "Copied instead — press ⌘V to paste".** Copy flagged that this is otherwise a lie. It is a small engine change and a better user result than a dead end.
+15. **Microphone status is never claimed.** Engineering found that no reliable Hammerspoon API exists, and Copy agreed. The contract has no mic-test action, so the step offers Open Settings plus neutral text. Lua may add a test later.
+16. **Onboarding has 5 steps: Welcome → Microphone → Accessibility → Talk key → Try it.** UX proposed 6 with the demo first, Copy 5, Visual 4 merged, and Copy's critique a reordered variant. Engineering, Motion and UX's critique voted for this order. The live practice needs the key and permissions first. UX's tap and hold cards become chips plus a mini HUD inside step 4.
+17. **Practice uses the real Lua-captured key, not Space.** Engineering vetoed it: WKWebView can't see modifier-only keys or mouse buttons. Space is used only on the site and demo simulators.
+18. **Key capture stays in Lua.** This is an Engineering veto.
+19. **The site CTA is "Coming soon" with no form.** Options were "Download" (Visual, UX), or a notify form or "Coming soon" (Copy). Nothing ships yet, and no list backend exists. This was unanimous in the critiques.
+20. **Headlines: the site hero is "Speak. It types." and onboarding is "Talk instead of type."** Copy's critique, seconded by UX. It avoids repeating one line in both places, and the shorter line works at hero size.
+21. **The meter floor is a 4px stub (≈.17), with no idle animation.** The 0.2 floor and the 4px stub were effectively equal. A visible floor reads as a live mic, and having no idle motion keeps the HUD quiet.
+22. **Shimmer plus spinner are kept in transcribing only.** Both are off under reduced motion, which uses a stepped ellipsis instead.
+23. **The menubar uses template glyphs plus a red badge dot while listening.** UX had proposed a filled red mic, which breaks the template-image convention. There is no emoji, no animation, and at most one swap per second.
+24. **Metering is astats on the existing ffmpeg process, at 15Hz with a rAF spring on the page.** Engineering vetoed ebur128 and a second ffmpeg process. It is a single capture with cheap parsing.
+25. **Interruption uses WAAPI `commitStyles` retargeting with 16ms coalescing.** Motion proposed it and everyone adopted it. It follows the Subframe principle that a new revision interrupts the movement already under way.
+26. **Overshoot is capped at 2%, and only on the success check.** Motion's cap is stricter than the research's 8% ceiling. Restraint reads as Apple.
+27. **Claims: no numbers, no price, no "free", no "works on a plane".** Copy made this call. "Nothing leaves your Mac" stays, because Engineering confirmed the only network call is to 127.0.0.1.
+28. **Apple-like visual identity.** Uses neutral gray and black, a product-in-window hero, SF only and system blue (Apple-like).

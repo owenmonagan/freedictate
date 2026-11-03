@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreeDictate — One-Button Free Dictation for Mac (Wispr Flow Alternative)</title>
+<meta name="description" content="One button. Hold it, talk, and your words appear in any app. FreeDictate is free, open-source dictation for Mac that runs offline. No subscription, no setup. A dead-simple Wispr Flow alternative.">
+<link rel="canonical" href="https://owenmonagan.github.io/freedictate/">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FreeDictate">
+<meta property="og:url" content="https://owenmonagan.github.io/freedictate/">
+<meta property="og:title" content="FreeDictate — One button. Free dictation for Mac.">
+<meta property="og:description" content="Install. Choose your button. Talk. Free, open-source, offline dictation for Mac.">
+<meta property="og:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FreeDictate — One button. Free dictation for Mac.">
+<meta name="twitter:description" content="Install. Choose your button. Talk. Free, open-source, offline dictation for Mac.">
+<meta name="twitter:image" content="https://owenmonagan.github.io/freedictate/assets/og.png">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "FreeDictate",
+ "operatingSystem": "macOS",
+ "applicationCategory": "UtilitiesApplication",
+ "description": "Free, open-source, offline push-to-talk dictation for Mac. One button: hold it, talk, and your words appear in any app.",
+ "url": "https://owenmonagan.github.io/freedictate/",
+ "downloadUrl": "https://github.com/owenmonagan/freedictate",
+ "license": "https://opensource.org/licenses/MIT",
+ "isAccessibleForFree": true,
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "author": {
+  "@type": "Person",
+  "name": "Owen Monagan"
+ }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Is FreeDictate really free?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. It's MIT-licensed open source. There's no subscription, no account, no trial, and no pro tier. You can read every line of the code on GitHub."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it need the internet?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Only to download it and the speech model once. After that, transcription runs offline with whisper.cpp on your Mac. Your audio is never uploaded."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I choose my button?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Pick any key, key combo, lone modifier like Right Option, or a middle, back, or forward mouse button. Tap it to start and tap again to stop, or hold it while you talk and let go."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What do I need to install it?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A Mac with Homebrew. The installer sets up Hammerspoon, ffmpeg, and whisper.cpp. Apple silicon is recommended for speed. Then allow Microphone and Accessibility access."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Which apps does it work in?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Any app with a text cursor: Mail, Slack, Notes, your code editor, a browser form. FreeDictate pastes the text where your cursor is, then restores your clipboard."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How is it different from Wispr Flow or Superwhisper?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Those are polished paid apps with modes, AI rewriting, and settings. FreeDictate does one thing: one button turns your voice into text, locally, for free. There's nothing to configure."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I cancel?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Press Esc while it's listening. Nothing is pasted."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="#top">FreeDictate <span>for Mac</span></a>
+    <nav aria-label="Sections"><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#compare">Compare</a><a href="#faq">FAQ</a></nav>
+    <a class="cta cta-sm" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <p class="eyebrow">Free and open source · For Mac</p>
+  <h1>One button. Free dictation for Mac.</h1>
+  <p class="sub">Install. Choose your button. Talk. That's it.</p>
+  <div class="cta-row">
+    <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+    <a class="cta cta-2" href="https://github.com/owenmonagan/freedictate">View on GitHub</a>
+  </div>
+  <div class="install" role="group" aria-label="Install command">
+    <code id="installCmd">git clone https://github.com/owenmonagan/freedictate.git &amp;&amp; cd freedictate &amp;&amp; ./install.sh</code>
+    <button type="button" class="copy" id="copyBtn" aria-label="Copy install command">Copy</button>
+  </div>
+  <p class="install-note">Needs Homebrew. Free forever, MIT license.</p>
+
+  <div class="window" id="demo" aria-label="Animated demo: FreeDictate listens, transcribes, and pastes text into a note">
+    <div class="titlebar" aria-hidden="true"><i></i><i></i><i></i><span>Notes</span></div>
+    <div class="doc">
+      <p class="doc-title">Thursday planning</p>
+      <p class="doc-text"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+    </div>
+    <div class="hud-stage" id="heroStage"></div>
+    <div class="demo-ctl" id="demoCtl" hidden>
+      <button type="button" data-act="play">Play demo</button>
+      <button type="button" data-act="pause">Pause</button>
+      <button type="button" data-act="replay">Replay</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <h2 class="reveal">Install, choose your button, talk</h2>
+  <p class="lead reveal">It's one button. Dead simple. There is nothing to it.</p>
+  <ol class="steps">
+    <li class="reveal"><span class="num">1</span><h3>Install.</h3><p>Run one command. It sets up the free, open-source speech engine on your Mac.</p></li>
+    <li class="reveal"><span class="num">2</span><h3>Choose your button.</h3><p>Any key, a combo, or a mouse button. That's the only setting.</p></li>
+    <li class="reveal"><span class="num">3</span><h3>Talk.</h3><p>Hold the button and speak. Let go, and your words appear where your cursor is.</p></li>
+  </ol>
+</section>
+
+<section class="section" id="free">
+  <h2 class="reveal">Free. Actually free.</h2>
+  <p class="lead reveal">Not a trial. Not freemium. No catch.</p>
+  <div class="tiles">
+    <article class="tile reveal"><p class="big">$0</p><h3>No subscription.</h3><p>Nothing to pay this month, next month, or ever.</p></article>
+    <article class="tile reveal"><p class="big">0</p><h3>No account.</h3><p>No sign-up, no email, no login. Install it and talk.</p></article>
+    <article class="tile reveal"><p class="big">MIT</p><h3>No pro tier.</h3><p>Every feature is in the free version, because the free version is the only version.</p></article>
+  </div>
+</section>
+</main>
+
+<section class="privacy" id="privacy">
+  <div class="privacy-in">
+    <h2 class="reveal">Nothing leaves your Mac</h2>
+    <p class="reveal">FreeDictate transcribes with whisper.cpp, an open-source speech model running on your own machine. It works offline. Audio is processed and discarded. There's nothing to sign in to and nothing to sync.</p>
+    <a class="cta cta-inv reveal" href="https://github.com/owenmonagan/freedictate">Read the code</a>
+  </div>
+</section>
+
+<section class="section" id="everywhere">
+  <h2 class="reveal">Works everywhere you type</h2>
+  <p class="lead reveal">Mail, Slack, Notes, your code editor, a browser form. If it has a cursor, FreeDictate can fill it.</p>
+  <ul class="apps">
+    <li class="app reveal"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="4" y="7" width="20" height="14" rx="2.5"/><path d="m5 9 9 6 9-6"/></svg><span>Mail</span></li>
+    <li class="app reveal"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 7h18v11H12l-5 4v-4H5z"/></svg><span>Chat</span></li>
+    <li class="app reveal"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m10 9-5 5 5 5M18 9l5 5-5 5M15.5 7l-3 14"/></svg><span>Code</span></li>
+    <li class="app reveal"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M4 14h20M14 4c3 3 4 6.5 4 10s-1 7-4 10c-3-3-4-6.5-4-10s1-7 4-10z"/></svg><span>Browser</span></li>
+  </ul>
+  <div class="sim reveal">
+    <p class="sim-cap">Your button can be any key, combo, or mouse button. Hold it to talk, or tap to start and tap to stop. Try it:</p>
+    <div class="sim-stage" id="simStage"></div>
+    <button type="button" class="keycap" id="simKey" aria-label="Talk button. Hold to talk, click to tap.">⌥</button>
+    <div class="sim-btns">
+      <button type="button" data-sim="start">Start listening</button>
+      <button type="button" data-sim="finish">Finish</button>
+      <button type="button" data-sim="cancel">Cancel</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="compare">
+  <h2 class="reveal">FreeDictate vs Wispr Flow, Superwhisper, VoiceInk</h2>
+  <p class="lead reveal">They sell features, modes, and AI. FreeDictate has nothing to configure and costs $0.</p>
+  <div class="table-wrap reveal" tabindex="0" role="region" aria-label="Comparison table">
+  <table class="cmp">
+    <thead><tr><th scope="col"><span class="sr">Feature</span></th><th scope="col" class="us">FreeDictate</th><th scope="col">Wispr Flow</th><th scope="col">Superwhisper</th><th scope="col">VoiceInk</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Price model</th><td class="us">Free, $0</td><td>Paid subscription</td><td>Paid license</td><td>Paid license</td></tr>
+      <tr><th scope="row">Runs offline</th><td class="us"><span class="yes">Yes</span></td><td><span class="no">No</span>, cloud</td><td>Local models available</td><td><span class="yes">Yes</span></td></tr>
+      <tr><th scope="row">Open source</th><td class="us"><span class="yes">Yes</span>, MIT</td><td><span class="no">No</span></td><td><span class="no">No</span></td><td><span class="yes">Yes</span></td></tr>
+      <tr><th scope="row">Setup</th><td class="us">One button. That's it.</td><td>Modes, styles, and AI options</td><td>Modes and model choices</td><td>Models and settings</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="fine-l">Based on each product's public website. Features and pricing change, so check theirs for current details.</p>
+</section>
+
+<section class="section" id="faq">
+  <h2 class="reveal">FAQ</h2>
+  <div class="faq">
+    <details><summary>Is FreeDictate really free?</summary><p>Yes. It&#x27;s MIT-licensed open source. There&#x27;s no subscription, no account, no trial, and no pro tier. You can read every line of the code on GitHub.</p></details>
+    <details><summary>Does it need the internet?</summary><p>Only to download it and the speech model once. After that, transcription runs offline with whisper.cpp on your Mac. Your audio is never uploaded.</p></details>
+    <details><summary>How do I choose my button?</summary><p>Pick any key, key combo, lone modifier like Right Option, or a middle, back, or forward mouse button. Tap it to start and tap again to stop, or hold it while you talk and let go.</p></details>
+    <details><summary>What do I need to install it?</summary><p>A Mac with Homebrew. The installer sets up Hammerspoon, ffmpeg, and whisper.cpp. Apple silicon is recommended for speed. Then allow Microphone and Accessibility access.</p></details>
+    <details><summary>Which apps does it work in?</summary><p>Any app with a text cursor: Mail, Slack, Notes, your code editor, a browser form. FreeDictate pastes the text where your cursor is, then restores your clipboard.</p></details>
+    <details><summary>How is it different from Wispr Flow or Superwhisper?</summary><p>Those are polished paid apps with modes, AI rewriting, and settings. FreeDictate does one thing: one button turns your voice into text, locally, for free. There&#x27;s nothing to configure.</p></details>
+    <details><summary>How do I cancel?</summary><p>Press Esc while it&#x27;s listening. Nothing is pasted.</p></details>
+  </div>
+</section>
+
+<footer class="footer">
+  <h2 class="reveal">Stop typing what you could say.</h2>
+  <a class="cta" href="https://github.com/owenmonagan/freedictate">Download free</a>
+  <p class="fine">MIT License · <a href="https://github.com/owenmonagan/freedictate">GitHub</a> · Made by Owen Monagan</p>
+</footer>
+
+<script src="hud.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

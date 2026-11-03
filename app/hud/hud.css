@@ -1,0 +1,67 @@
+/* Dictate HUD. Faked glass, always dark. Only transform / opacity / stroke-dashoffset animate. */
+html,body{background:transparent!important;margin:0;padding:0;overflow:hidden;width:100%;height:100%}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;user-select:none;cursor:default}
+#stage{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none}
+#hud{position:relative;width:0;height:var(--hud-h);opacity:0;will-change:transform,opacity}
+#press,#shake{position:absolute;inset:0;will-change:transform}
+
+/* three-layer capsule, centred on x=0 of #hud */
+.shape{position:absolute;inset:0;filter:none}
+.fill{position:absolute;inset:0;opacity:.78} /* group alpha = --hud-bg alpha; overlaps composite once, no seams */
+.lcap,.rcap,.slab{position:absolute;top:0;height:var(--hud-h);background:var(--hud-solid);will-change:transform}
+/* caps are 21px with their inner 1px clipped, so the hairline never draws a seam */
+.lcap{left:0;width:21px;border-radius:20px 0 0 20px;box-shadow:inset 0 0 0 0.5px rgba(255,255,255,.16);clip-path:inset(0 1px 0 0)}
+.rcap{left:0;width:21px;border-radius:0 20px 20px 0;box-shadow:inset 0 0 0 0.5px rgba(255,255,255,.16);clip-path:inset(0 0 0 1px)}
+/* slab basis = 224px, origin centre, scaleX((W-40)/224) */
+.slab{left:-112px;width:224px;transform-origin:50% 50%;
+  box-shadow:inset 0 0.5px 0 rgba(255,255,255,.16), inset 0 -0.5px 0 rgba(255,255,255,.16)}
+.shape{filter:drop-shadow(0 8px 12px rgba(0,0,0,.28)) drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+
+.content{position:absolute;left:0;top:0;height:var(--hud-h);color:var(--hud-fg);
+  font-size:var(--fs-body);font-weight:var(--fw-medium);letter-spacing:var(--track-body);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.face{position:absolute;top:0;height:var(--hud-h);left:0;transform:translateX(-50%);
+  display:flex;align-items:center;gap:var(--s2);padding:0 14px;box-sizing:border-box;opacity:0;max-width:264px}
+.face svg{flex:none;display:block}
+.label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.dim{color:var(--hud-fg-2)}
+
+/* listening */
+.lead{display:flex;align-items:center;gap:4px;width:auto}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--hud-record);flex:none;display:block}
+.lock{color:var(--hud-fg-2);opacity:0;width:0;transition:none}
+[data-mode="tap"] .lock{width:10px}
+.meter{display:flex;align-items:center;gap:3px;height:24px}
+.meter i{display:block;width:3px;height:24px;border-radius:1.5px;background:var(--hud-fg);opacity:.92;
+  transform:scaleY(.1667);will-change:transform}
+.kbd{font-size:var(--fs-caption);font-weight:var(--fw-semibold);color:var(--hud-fg-2);
+  border:1px solid rgba(255,255,255,.22);border-radius:4px;padding:1px 5px;line-height:13px;opacity:0;display:none}
+[data-mode="tap"] .kbd{display:block}
+
+/* transcribing */
+.spinner{color:var(--hud-fg-2);animation:spin 900ms linear infinite;animation-play-state:paused}
+[data-state="transcribing"] .spinner{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+.shimmer{background:linear-gradient(90deg,var(--hud-fg-2) 0 40%,var(--hud-fg) 50%,var(--hud-fg-2) 60% 100%);
+  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer var(--dur-shimmer) linear infinite;animation-play-state:paused}
+[data-state="transcribing"] .shimmer{animation-play-state:running}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:-150% 0}}
+.ell{display:inline-block}
+
+/* done */
+.check{color:var(--hud-success)}
+.check path{stroke-dasharray:1;stroke-dashoffset:1}
+.preview{color:var(--hud-fg-2)}
+.ring{color:var(--hud-fg-3)}
+.x{color:var(--hud-fg-2)}
+.warn{color:var(--hud-warning)}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+body[data-state="hidden"] *{animation-play-state:paused!important}
+
+@media (prefers-reduced-motion: reduce){
+  .spinner,.shimmer{animation:none!important}
+  .shimmer{background:none;color:var(--hud-fg-2)}
+}

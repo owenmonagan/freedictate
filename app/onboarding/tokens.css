@@ -1,0 +1,90 @@
+/* Dictate design tokens. Every surface (HUD, onboarding, demo, site) imports or inlines this.
+   Apple-like: SF Pro, neutral grays, one blue accent, red = live capture only. */
+:root{
+  color-scheme: light dark;
+  /* type */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --fs-caption:11px; --fs-footnote:12px; --fs-body:13px; --fs-callout:15px; --fs-lead:17px;
+  --fs-title3:20px; --fs-title2:28px; --fs-title1:40px; --fs-hero:clamp(44px,7vw,80px);
+  --lh-tight:1.08; --lh-body:1.45;
+  --track-hero:-0.022em; --track-title:-0.015em; --track-body:-0.003em;
+  --fw-regular:400; --fw-medium:510; --fw-semibold:590; --fw-bold:700;
+
+  /* color, light */
+  --bg:#F5F5F7; --bg-elevated:#FFFFFF;
+  --label:#1D1D1F; --label-2:rgba(29,29,31,.68); --label-3:rgba(29,29,31,.46);
+  --separator:rgba(0,0,0,.10); --fill:rgba(120,120,128,.12); --fill-2:rgba(120,120,128,.20);
+  --accent:#0071E3; --accent-hover:#0077ED; --on-accent:#FFFFFF;
+  --record:#FF3B30; --success:#28CD41; --warning:#FF9F0A; --danger:#FF3B30;
+  --focus-ring:0 0 0 3px rgba(0,113,227,.45);
+
+  /* glass (site + demo + onboarding only; real backdrop-filter) */
+  --glass-bg:rgba(255,255,255,.62); --glass-solid:#F2F2F4;
+  --glass-blur:blur(30px) saturate(180%);
+  --glass-border:0.5px solid rgba(0,0,0,.12);
+  --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.7);
+
+  /* HUD: always dark, FAKED glass (backdrop-filter cannot see the desktop in a transparent WKWebView) */
+  --hud-bg:rgba(28,28,30,.78); --hud-solid:#1C1C1E;
+  --hud-fg:#FFFFFF; --hud-fg-2:rgba(255,255,255,.62); --hud-fg-3:rgba(255,255,255,.38);
+  --hud-hairline:inset 0 0 0 0.5px rgba(255,255,255,.12);
+  --hud-record:#FF453A; --hud-success:#32D74B; --hud-warning:#FFD60A;
+  --hud-h:40px; --hud-r:20px;
+
+  /* space (4pt) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
+  /* radius */
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:18px; --r-xl:26px; --r-pill:999px;
+  /* shadow */
+  --shadow-1:0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
+  --shadow-2:0 4px 16px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.06);
+  --shadow-hud:0 8px 24px rgba(0,0,0,.28), 0 2px 6px rgba(0,0,0,.18);
+  --shadow-window:0 24px 64px rgba(0,0,0,.18), 0 4px 12px rgba(0,0,0,.08);
+
+  /* motion */
+  --dur-micro:140ms; --dur-small:240ms; --dur-enter:280ms; --dur-morph:300ms; --dur-large:420ms;
+  --dur-exit:180ms; --dur-cancel:150ms; --dur-check:240ms;
+  --dur-shimmer:1400ms; --dur-pulse:1200ms;
+  --hold-done-preview:700ms; --hold-done-plain:420ms; --hold-error:2400ms;
+  --ease-standard:cubic-bezier(0.2,0,0,1);
+  --ease-enter:cubic-bezier(0.16,1,0.3,1);
+  --ease-exit:cubic-bezier(0.4,0,1,1);
+  --ease-fade:ease-out;
+  --spring-morph:linear(0, 0.25 8%, 0.6 20%, 0.85 34%, 0.96 50%, 1);                       /* critically damped */
+  --spring-snappy:linear(0, 0.18 6%, 0.52 14%, 0.8 24%, 0.96 36%, 1.02 48%, 1.01 60%, 1);   /* 2% overshoot, success only */
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --bg-elevated:#1C1C1E; --label:#F5F5F7;
+    --label-2:rgba(245,245,247,.70); --label-3:rgba(245,245,247,.48);
+    --separator:rgba(255,255,255,.12); --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
+    --accent:#0A84FF; --accent-hover:#409CFF;
+    --record:#FF453A; --success:#32D74B; --warning:#FFD60A; --danger:#FF453A;
+    --focus-ring:0 0 0 3px rgba(10,132,255,.55);
+    --glass-bg:rgba(30,30,32,.58); --glass-solid:#232325;
+    --glass-border:0.5px solid rgba(255,255,255,.12); --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.08);
+    --shadow-window:0 24px 64px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg-elevated:#1C1C1E; --label:#F5F5F7;
+  --label-2:rgba(245,245,247,.70); --label-3:rgba(245,245,247,.48);
+  --separator:rgba(255,255,255,.12); --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
+  --accent:#0A84FF; --accent-hover:#409CFF;
+  --record:#FF453A; --success:#32D74B; --warning:#FFD60A; --danger:#FF453A;
+  --focus-ring:0 0 0 3px rgba(10,132,255,.55);
+  --glass-bg:rgba(30,30,32,.58); --glass-solid:#232325;
+  --glass-border:0.5px solid rgba(255,255,255,.12); --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.08);
+  --shadow-window:0 24px 64px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  :root{ --glass-bg:var(--glass-solid); }
+}
+@media (prefers-reduced-motion: reduce){
+  :root{
+    --dur-enter:160ms; --dur-morph:0ms; --dur-exit:120ms; --dur-cancel:120ms; --dur-check:0ms; --dur-large:200ms;
+    --spring-morph:linear(0,1); --spring-snappy:linear(0,1);
+  }
+}
