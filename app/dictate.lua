@@ -152,9 +152,20 @@ local function hudHideWindow()
   end)
 end
 
+-- The setup window's "Try it" step mirrors the HUD: window.onDictation / window.onLevel.
+local onboard -- onboarding webview
+local onboardMuted = false -- finish() reports "done" itself, so the HUD's error flash stays out of it
+local function onboardDictation(st, payload)
+  if not onboard or onboardMuted then return end
+  local d = {state = st}
+  if payload then d.text, d.message = payload.text, payload.message end
+  onboard:evaluateJavaScript("window.onDictation && window.onDictation(" .. js(d) .. ")")
+end
+
 -- Send a state to the HUD (or the fallback). Any new state cancels pending hide timers.
 local function hudState(st, payload)
   cancelHudTimers()
+  if st ~= "hidden" then onboardDictation(st, payload) end
   if not useWebview() then canvasState(st, payload); return end
   if st ~= "hidden" then
     hud.wv:frame(hudFrame())
@@ -179,13 +190,14 @@ end
 
 local lastLevel, lastLevelAt = -1, 0
 local function hudLevel(x)
-  if not useWebview() or state ~= "recording" then return end
+  if state ~= "recording" then return end
   local now = hs.timer.secondsSinceEpoch()
   if now - lastLevelAt < 1 / 15 then return end
   x = math.floor(x * 100 + 0.5) / 100
   if math.abs(x - lastLevel) < 0.02 then return end
   lastLevel, lastLevelAt = x, now
-  hudEval("window.setLevel && window.setLevel(" .. x .. ")")
+  if onboard then onboard:evaluateJavaScript("window.onLevel && window.onLevel(" .. x .. ")") end
+  if useWebview() then hudEval("window.setLevel && window.setLevel(" .. x .. ")") end
 end
 
 -- RMS dBFS → 0..1: map −60..−10 dB, gamma 0.6.
@@ -223,11 +235,16 @@ local function finish(text, failed)
   if failed then hudFlash("error", {message = MSG.server}, 2.4); return end
   text = clean(text)
   if text == "" then hudFlash("done", {text = ""}, 0.42); return end
-  if paste(text) then
+  local pasted = paste(text)
+  -- Setup's "Try it" field gets the words even when the paste can't land.
+  onboardDictation("done", {text = text})
+  onboardMuted = true
+  if pasted then
     hudFlash("done", {text = text}, 0.7)
   else
     hudFlash("error", {message = MSG.paste}, 2.4)
   end
+  onboardMuted = false
 end
 
 local function transcribeCli()
@@ -309,7 +326,6 @@ local DEFAULT_KEY = {keyCode = 49, mods = {"alt"}}  -- ⌥Space
 local talkKey = getSetting("talkKey") or DEFAULT_KEY
 local tap, capturing, holdTimer
 local keyIsDown, pressedAt, startedByThisPress = false, 0, false
-local onboard -- onboarding webview
 
 local MOUSE_NAMES = {[2]="Middle mouse button",[3]="Mouse Back button",[4]="Mouse Forward button"}
 
@@ -566,7 +582,7 @@ function M.showOnboarding()
     end
   end)
   local s = hs.screen.mainScreen():frame()
-  local w, h = 520, 560
+  local w, h = 520, 600
   onboard = hs.webview.new({x = s.x + (s.w - w) / 2, y = s.y + (s.h - h) / 2, w = w, h = h}, {}, ucc)
   onboard:windowStyle({"titled", "closable", "miniaturizable"})
   onboard:windowTitle("FreeDictate Setup")
