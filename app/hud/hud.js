@@ -14,7 +14,7 @@
   var dot = $('.dot'), lock = $('.lock'), kbd = $('.kbd');
   var checkPath = $('.check path'), checkSvg = $('.check');
   var spinner = $('.spinner'), shimmerLabel = $('.shimmer'), ell = $('.ell');
-  var previewEl = $('.preview'), msgEl = $('.msg'), live = $('#live');
+  var glow = $('#glow'), previewEl = $('.preview'), msgEl = $('.msg'), live = $('#live');
 
   var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   var reduced = function () { return !!mq.matches; };
@@ -110,6 +110,11 @@
       bars[i].style.transform = 'scaleY(' + (Math.min(24, h) / 24).toFixed(4) + ')';
     }
   }
+  function renderGlow(level) {
+    glow.style.transform = 'scale(' + (0.6 + 0.7 * level).toFixed(3) + ')';
+    glow.style.opacity = (0.2 + 0.8 * level).toFixed(3);
+  }
+  function glowOut() { tween(glow, { opacity: '0', transform: 'scale(.6)' }, reduced() ? 120 : 240, EASE.exit); }
   function loop(t) {
     raf = 0;
     if (state !== 'listening' || frozen) return;
@@ -119,14 +124,14 @@
       if (t - lastRmUpdate >= 200) {
         lastRmUpdate = t;
         var q = target < 0.04 ? 0 : target < 0.35 ? 0.25 : target < 0.7 ? 0.6 : 1;
-        renderBars(q);
+        renderBars(q); renderGlow(q);
       }
     } else {
       if (!fresh) target *= 0.85; else fresh = false;
       var w = 40, acc = -2 * w * vel - w * w * (display - target);
       vel += acc * dt; display += vel * dt;
       if (display < 0) { display = 0; vel = 0; }
-      renderBars(display);
+      renderBars(display); renderGlow(Math.min(1, display));
     }
     raf = requestAnimationFrame(loop);
   }
@@ -156,6 +161,24 @@
       t = (sp > 8 ? cut.slice(0, sp) : cut).replace(/[\s.,;:!?-]+$/, '') + '…';
     }
     return '“' + t + '”';
+  }
+  // words condense in: blurred, lifted, transparent -> sharp, small stagger
+  function condense(el, text) {
+    el.textContent = '';
+    var words = text.split(/(\s+)/);
+    var n = 0;
+    words.forEach(function (w) {
+      if (!w) return;
+      var sp = document.createElement('span'); sp.className = 'w'; sp.textContent = w;
+      el.appendChild(sp);
+      if (/^\s+$/.test(w)) return;
+      if (reduced()) sp.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, delay: 90, easing: EASE.fade, fill: 'backwards' });
+      else sp.animate([
+        { opacity: 0, filter: 'blur(6px)', transform: 'translateY(-4px)' },
+        { opacity: 1, filter: 'blur(0px)', transform: 'translateY(0px)' }
+      ], { duration: 280, delay: 120 + n * 40, easing: EASE.enter, fill: 'backwards' });
+      n++;
+    });
   }
   function announce(s) { live.textContent = s; }
 
@@ -218,6 +241,7 @@
     var prev = state;
     var newMode = payload.mode === 'tap' || payload.mode === 'hold' ? payload.mode : null;
     body.dataset.state = next;
+    if (next !== 'listening' && prev === 'listening') glowOut();
 
     switch (next) {
       case 'hidden':
@@ -239,6 +263,7 @@
         }
         mode = newMode;
         target = display = vel = 0; renderBars(0);
+        freeze(glow); renderGlow(0);
         applyMode(mode);
         setNow(dot, { opacity: '1' });
         bars.forEach(function (b) { setNow(b, { opacity: '.92' }); });
@@ -296,11 +321,12 @@
         var text = String(payload.text || '').replace(/\s+/g, ' ').trim();
         if (text) {
           faces.done.style.width = '';
-          previewEl.textContent = ' · ' + previewText(text);
+          previewEl.textContent = previewText(text);
           var fw = Math.max(MIN_DONE, Math.min(MAX_W, fitWidth(faces.done)));
           faces.done.style.width = fw + 'px';
           shapeTo(fw, 300, EASE.morph);
           showFace('done', 300);
+          condense(previewEl, previewText(text));
           // check: draw + scale with 2% overshoot
           if (reduced()) { setNow(checkPath, { strokeDashoffset: '0' }); setNow(checkSvg, { transform: 'none' }); }
           else {

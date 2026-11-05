@@ -11,12 +11,18 @@
 <div class="app" id="app" data-step="welcome">
   <div class="glow" aria-hidden="true"><i data-tint="welcome"></i><i data-tint="microphone"></i><i data-tint="accessibility"></i><i data-tint="serverOk"></i><i data-tint="launchAtLogin"></i><i data-tint="key"></i><i data-tint="try"></i></div>
 
-  <nav class="progress" aria-label="Setup progress">
+  <aside class="side">
+    <p class="brand">FreeDictate</p>
+    <nav aria-label="Setup steps"><ol class="steps" id="dots"></ol></nav>
+    <p class="summary" id="summary" role="status" aria-live="polite"></p>
+  </aside>
+
+  <div class="panel">
+  <div class="progress">
     <button type="button" class="back" id="back" aria-label="Back" tabindex="-1">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5"/></svg>
     </button>
-    <ol class="dots" id="dots"></ol>
-  </nav>
+  </div>
 
   <!-- Shared hero: one element that persists across steps and morphs -->
   <div class="hero" id="hero" aria-hidden="true">
@@ -38,10 +44,9 @@
 
   <main class="stage" id="stage">
     <section class="step" data-step="welcome" aria-labelledby="h-welcome">
-      <h1 id="h-welcome">Talk instead of type.</h1>
-      <p class="lead">Hold a button, say what you want to write, and let go. Your words appear wherever you're typing.</p>
-      <p class="fine">Setup takes about a minute. Everything runs on your Mac.</p>
-      <div class="actions"><button type="button" class="btn primary" data-go="next">Get Started</button></div>
+      <h1 id="h-welcome">Hello.</h1>
+      <p class="lead">FreeDictate gives your Mac one button for talking. Hold it, say what you want to type, and let go. Setup takes about a minute.</p>
+      <div class="actions"><button type="button" class="btn primary" data-go="next">Get started</button></div>
     </section>
 
     <section class="step" data-step="microphone" data-check="microphone" aria-labelledby="h-mic">
@@ -49,9 +54,9 @@
       <p class="lead">Turn on FreeDictate (Hammerspoon) under Privacy &amp; Security → Microphone.</p>
       <p class="state" data-state-line></p>
       <div class="actions">
-        <button type="button" class="btn primary" data-action="openMicrophone" data-when="todo">Open Microphone Settings</button>
+        <button type="button" class="btn primary" data-action="openMicrophone" data-when="todo">Open Microphone settings</button>
         <button type="button" class="btn primary" data-go="next" data-when="ok">Continue</button>
-        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for Now</button>
+        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for now</button>
       </div>
     </section>
 
@@ -60,9 +65,9 @@
       <p class="lead">Accessibility lets FreeDictate paste your words into the app you're using. Turn on Hammerspoon in the list.</p>
       <p class="state" data-state-line></p>
       <div class="actions">
-        <button type="button" class="btn primary" data-action="openAccessibility" data-when="todo">Open Accessibility Settings</button>
+        <button type="button" class="btn primary" data-action="openAccessibility" data-when="todo">Open Accessibility settings</button>
         <button type="button" class="btn primary" data-go="next" data-when="ok">Continue</button>
-        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for Now</button>
+        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for now</button>
       </div>
     </section>
 
@@ -71,9 +76,9 @@
       <p class="lead">Speech turns into text right here on your Mac. Nothing you say leaves it.</p>
       <p class="state" data-state-line></p>
       <div class="actions">
-        <button type="button" class="btn primary" data-action="startServer" data-when="todo">Start Engine</button>
+        <button type="button" class="btn primary" data-action="startServer" data-when="todo">Start engine</button>
         <button type="button" class="btn primary" data-go="next" data-when="ok">Continue</button>
-        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for Now</button>
+        <button type="button" class="btn plain" data-go="next" data-when="todo">Skip for now</button>
       </div>
     </section>
 
@@ -82,9 +87,9 @@
       <p class="lead">Start FreeDictate when you log in, so your button always works.</p>
       <p class="state" data-state-line></p>
       <div class="actions">
-        <button type="button" class="btn primary" data-action="launchAtLogin" data-when="todo">Start at Login</button>
+        <button type="button" class="btn primary" data-action="launchAtLogin" data-when="todo">Start at login</button>
         <button type="button" class="btn primary" data-go="next" data-when="ok">Continue</button>
-        <button type="button" class="btn plain" data-go="next" data-when="todo">Not Now</button>
+        <button type="button" class="btn plain" data-go="next" data-when="todo">Not now</button>
       </div>
     </section>
 
@@ -92,11 +97,14 @@
       <h1 id="h-key">Choose your button</h1>
       <p class="lead">Hold it and talk. Or tap it once to keep listening, and tap again to stop.</p>
       <div class="keywell" id="keyWell">
-        <kbd class="keycap" id="keyLabel">…</kbd>
+        <div class="bigkey">
+          <span class="keyring" id="keyRing" aria-hidden="true"></span>
+          <kbd class="keycap" id="keyLabel">…</kbd>
+        </div>
         <span class="keyhint" id="keyHint" role="status" aria-live="polite">A key, a combo, or an extra mouse button.</span>
       </div>
       <div class="actions">
-        <button type="button" class="btn primary" data-go="next">Use This Button</button>
+        <button type="button" class="btn primary" data-go="next">Use this button</button>
         <button type="button" class="btn plain" data-action="setKey" id="changeKey">Change…</button>
       </div>
     </section>
@@ -105,18 +113,18 @@
       <h1 id="h-try">Try it</h1>
       <p class="lead" id="tryLead">Hold <kbd class="keycap sm" data-keylabel>…</kbd> and say anything.</p>
       <div class="field" id="field">
+        <span class="trygl" id="tryGlow" aria-hidden="true"></span>
         <textarea id="tryField" rows="3" spellcheck="false" aria-label="Practice field" placeholder="Your words will appear here."></textarea>
         <span class="fieldglow" aria-hidden="true"></span>
       </div>
       <p class="trystatus" id="tryStatus" role="status" aria-live="polite">Listening for your button…</p>
       <div class="actions">
         <button type="button" class="btn primary" id="finish" data-action="close">Done</button>
-        <button type="button" class="btn plain sim-only" id="simSay">Simulate Dictation</button>
+        <button type="button" class="btn plain sim-only" id="simSay">Simulate dictation</button>
       </div>
     </section>
   </main>
-
-  <p class="summary" id="summary" role="status" aria-live="polite"></p>
+  </div>
 </div>
 <script src="onboarding.js"></script>
 </body>

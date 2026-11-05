@@ -1,5 +1,5 @@
-/* Dictate design tokens. Every surface (HUD, onboarding, demo, site) imports or inlines this.
-   Apple-like: SF Pro, neutral grays, one blue accent, red = live capture only. */
+/* FreeDictate design tokens (FD-1). Every surface (HUD, onboarding, demo, site) imports or inlines this.
+   Bead-blast aluminum, engraved graphite, and one signal orange that means "the mic is live". */
 :root{
   color-scheme: light dark;
   /* type */
@@ -13,12 +13,19 @@
   --fw-regular:400; --fw-medium:510; --fw-semibold:590; --fw-bold:700;
 
   /* color, light */
-  --bg:#F5F5F7; --bg-elevated:#FFFFFF;
-  --label:#1D1D1F; --label-2:rgba(29,29,31,.68); --label-3:rgba(29,29,31,.46);
-  --separator:rgba(0,0,0,.10); --fill:rgba(120,120,128,.12); --fill-2:rgba(120,120,128,.20);
-  --accent:#0071E3; --accent-hover:#0077ED; --on-accent:#FFFFFF;
-  --record:#FF3B30; --success:#28CD41; --warning:#FF9F0A; --danger:#FF3B30;
-  --focus-ring:0 0 0 3px rgba(0,113,227,.45);
+  --bg:#E6E7E9; --bg-elevated:#F7F7F8;
+  --label:#1D1E21; --label-2:#55585E; --label-3:#6B6E75;
+  --separator:rgba(29,30,33,.12); --fill:rgba(29,30,33,.06); --fill-2:rgba(29,30,33,.10);
+  /* accent = graphite: buttons are dark pills. Orange is never decoration. */
+  --accent:#1D1E21; --accent-hover:#34363B; --on-accent:#F2F2F4;
+  --record:#FF5B14; --success:#2FBF71; --warning:#F0A01A; --danger:#E0900A;
+  --focus-ring:0 0 0 3px rgba(29,30,33,.35);
+
+  /* aluminum objects (keys, device, setup keycap) */
+  --alu-1:#F7F7F8; --alu-2:#D3D5D8; --alu-edge:#B7B9BE;
+  --alu:linear-gradient(160deg,var(--alu-1),var(--alu-2));
+  --key-shadow:0 8px 0 var(--alu-edge), 0 18px 30px rgba(40,42,48,.22), inset 0 1px 0 #FFFFFF;
+  --key-shadow-down:0 2px 0 var(--alu-edge), 0 6px 12px rgba(40,42,48,.2), inset 0 1px 0 #FFFFFF;
 
   /* glass (site + demo + onboarding only; real backdrop-filter) */
   --glass-bg:rgba(255,255,255,.62); --glass-solid:#F2F2F4;
@@ -27,10 +34,11 @@
   --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.7);
 
   /* HUD: always dark, FAKED glass (backdrop-filter cannot see the desktop in a transparent WKWebView) */
-  --hud-bg:rgba(28,28,30,.78); --hud-solid:#1C1C1E;
-  --hud-fg:#FFFFFF; --hud-fg-2:rgba(255,255,255,.62); --hud-fg-3:rgba(255,255,255,.38);
+  --hud-bg:rgba(24,25,28,.92); --hud-solid:#18191C;
+  --hud-fg:#F2F2F4; --hud-fg-2:rgba(242,242,244,.62); --hud-fg-3:rgba(242,242,244,.38);
   --hud-hairline:inset 0 0 0 0.5px rgba(255,255,255,.12);
-  --hud-record:#FF453A; --hud-success:#32D74B; --hud-warning:#FFD60A;
+  --hud-record:#FF6A2B; --hud-success:#3DDC84; --hud-warning:#FFB020;
+  --hud-glow:rgba(255,91,20,.38);
   --hud-h:40px; --hud-r:20px;
 
   /* space (4pt) */
@@ -57,24 +65,30 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#000000; --bg-elevated:#1C1C1E; --label:#F5F5F7;
-    --label-2:rgba(245,245,247,.70); --label-3:rgba(245,245,247,.48);
-    --separator:rgba(255,255,255,.12); --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
-    --accent:#0A84FF; --accent-hover:#409CFF;
-    --record:#FF453A; --success:#32D74B; --warning:#FFD60A; --danger:#FF453A;
-    --focus-ring:0 0 0 3px rgba(10,132,255,.55);
+    --bg:#141518; --bg-elevated:#1C1D20; --label:#F2F2F4;
+    --label-2:#A3A7AF; --label-3:#7C8088;
+    --separator:rgba(255,255,255,.10); --fill:rgba(255,255,255,.06); --fill-2:rgba(255,255,255,.10);
+    --accent:#F2F2F4; --accent-hover:#FFFFFF; --on-accent:#141518;
+    --record:#FF6A2B; --success:#3DDC84; --warning:#FFB020; --danger:#FFB020;
+    --focus-ring:0 0 0 3px rgba(242,242,244,.4);
+    --alu-1:#3A3C42; --alu-2:#232428; --alu-edge:#111214;
+    --key-shadow:0 8px 0 var(--alu-edge), 0 18px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+    --key-shadow-down:0 2px 0 var(--alu-edge), 0 6px 12px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
     --glass-bg:rgba(30,30,32,.58); --glass-solid:#232325;
     --glass-border:0.5px solid rgba(255,255,255,.12); --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.08);
     --shadow-window:0 24px 64px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#000000; --bg-elevated:#1C1C1E; --label:#F5F5F7;
-  --label-2:rgba(245,245,247,.70); --label-3:rgba(245,245,247,.48);
-  --separator:rgba(255,255,255,.12); --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.36);
-  --accent:#0A84FF; --accent-hover:#409CFF;
-  --record:#FF453A; --success:#32D74B; --warning:#FFD60A; --danger:#FF453A;
-  --focus-ring:0 0 0 3px rgba(10,132,255,.55);
+  --bg:#141518; --bg-elevated:#1C1D20; --label:#F2F2F4;
+  --label-2:#A3A7AF; --label-3:#7C8088;
+  --separator:rgba(255,255,255,.10); --fill:rgba(255,255,255,.06); --fill-2:rgba(255,255,255,.10);
+  --accent:#F2F2F4; --accent-hover:#FFFFFF; --on-accent:#141518;
+  --record:#FF6A2B; --success:#3DDC84; --warning:#FFB020; --danger:#FFB020;
+  --focus-ring:0 0 0 3px rgba(242,242,244,.4);
+  --alu-1:#3A3C42; --alu-2:#232428; --alu-edge:#111214;
+  --key-shadow:0 8px 0 var(--alu-edge), 0 18px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+  --key-shadow-down:0 2px 0 var(--alu-edge), 0 6px 12px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
   --glass-bg:rgba(30,30,32,.58); --glass-solid:#232325;
   --glass-border:0.5px solid rgba(255,255,255,.12); --glass-highlight:inset 0 0.5px 0 rgba(255,255,255,.08);
   --shadow-window:0 24px 64px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);

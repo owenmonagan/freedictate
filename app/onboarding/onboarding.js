@@ -8,6 +8,8 @@
  * Motion: design/MOTION.md §0 and §5. */
 (function () {
   'use strict';
+  var NAMES = { welcome: 'Welcome', microphone: 'Microphone', accessibility: 'Accessibility', serverOk: 'Speech engine',
+    launchAtLogin: 'Start at login', key: 'Your button', try: 'Try it' };
   var STEPS = ['welcome', 'microphone', 'accessibility', 'serverOk', 'launchAtLogin', 'key', 'try'];
   var CHECKS = ['microphone', 'accessibility', 'serverOk', 'launchAtLogin'];
   var LINES = {
@@ -25,6 +27,9 @@
   var keyLabel = $('#keyLabel'), keyWell = $('#keyWell'), keyHint = $('#keyHint'), changeKey = $('#changeKey');
   var field = $('#field'), textarea = $('#tryField'), tryStatus = $('#tryStatus'), finishBtn = $('#finish');
   var bars = $$('.meter i');
+  var keyRing = $('#keyRing'), tryGlow = $('#tryGlow'), tryH = $('#h-try');
+  var hr = new Date().getHours();
+  $('#h-welcome').textContent = hr < 5 ? 'Good evening.' : hr < 12 ? 'Good morning.' : hr < 18 ? 'Good afternoon.' : 'Good evening.';
   if (!bridge) document.documentElement.classList.add('nobridge');
 
   var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
@@ -58,19 +63,25 @@
   function norm(v) { return v === true ? true : v === false ? false : null; }
   function word(v) { return v === true ? 'ok' : v === false ? 'off' : 'unknown'; }
 
-  /* ---------- progress dots: a shared indicator slides between them ---------- */
+  /* ---------- sidebar step list: done steps get a green check ---------- */
+  var CHECK_SVG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4 8.3l2.4 2.4 4.8-5"/></svg>';
   var dotBtns = STEPS.map(function (s, i) {
     var li = document.createElement('li'), b = document.createElement('button');
-    b.type = 'button'; b.setAttribute('aria-label', 'Step ' + (i + 1) + ' of ' + STEPS.length);
+    b.type = 'button';
+    b.innerHTML = '<span class="mk">' + CHECK_SVG + '<span class="n">' + (i + 1) + '</span></span><span class="nm"></span>';
+    $('.nm', b).textContent = NAMES[s];
     b.addEventListener('click', function () { go(i); });
     li.appendChild(b); dotsEl.appendChild(li); return b;
   });
-  var ind = document.createElement('span'); ind.className = 'ind'; ind.setAttribute('aria-hidden', 'true'); dotsEl.appendChild(ind);
-  function placeIndicator(i, animate) {
-    var x = i * 16 + 'px';
-    tween(ind, { transform: 'translateX(' + x + ')' }, animate && !reduced() ? 300 : 0, EASE.morph);
+  function stepDone(j) {
+    var s = STEPS[j];
+    if (CHECKS.indexOf(s) >= 0) return checks[s] === true;
+    if (s === 'try') return dict === 'done-ok';
+    return j < cur;
+  }
+  function placeIndicator(i) {
     dotBtns.forEach(function (b, j) {
-      b.classList.toggle('done', j < i);
+      b.classList.toggle('done', stepDone(j));
       if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
     });
   }
@@ -150,7 +161,7 @@
       inEl.style.opacity = '0'; inEl.style.transform = 'translateX(' + (24 * dir) + 'px)';
       tween(inEl, { opacity: '1', transform: 'translateX(0px)' }, 420, EASE.enter, 120);
     }
-    placeIndicator(i, !instant);
+    placeIndicator(i);
     heroFor(i);
     back.classList.toggle('on', i > 0);
     back.tabIndex = i > 0 ? 0 : -1;
@@ -204,9 +215,13 @@
     var apply = function () {
       keyLabel.textContent = l;
       $$('[data-keylabel]').forEach(function (k) { k.textContent = l; });
-      textarea.placeholder = 'Hold ' + l + ' and talk. Your words land here.';
+      textarea.placeholder = 'Hold ' + l + ' and talk. Your words appear here.';
       keyLabel.classList.remove('swap');
-      if (!first && was !== '…') { keyLabel.classList.remove('pop'); void keyLabel.offsetWidth; keyLabel.classList.add('pop'); }
+      if (!first && was !== '…') {
+        keyLabel.classList.remove('pop'); void keyLabel.offsetWidth; keyLabel.classList.add('pop');
+        if (reduced()) { keyRing.style.transform = 'scale(1)'; keyRing.style.opacity = '.8'; tween(keyRing, { opacity: '0' }, 600, 'ease-out', 200); }
+        else { keyRing.style.opacity = '.9'; keyRing.style.transform = 'scale(1)'; tween(keyRing, { opacity: '0', transform: 'scale(1.45)' }, 700, EASE.enter); }
+      }
     };
     if (first || was === '…') apply();
     else { keyLabel.classList.add('swap'); setTimeout(apply, 140); }
@@ -225,6 +240,7 @@
     });
     if (d.keyLabel) setKeyLabel(d.keyLabel);
     refreshSummary();
+    if (!first) placeIndicator(cur);
     if (first) { go(0); first = false; }
   }
   window.onInit = function (d) {
@@ -232,6 +248,11 @@
     if (!timer) timer = setTimeout(flush, 16);   // coalesce bursts; last wins
   };
   window.onKeyChanged = function (l) { setKeyLabel(l); };
+
+  // the big keycap sinks while your button is held
+  function keyDown(on) { keyLabel.classList.toggle('down', !!on); }
+  keyLabel.addEventListener('pointerdown', function () { keyDown(true); });
+  window.addEventListener('pointerup', function () { if (dict !== 'listening') keyDown(false); });
 
   /* ---------- Try it: live dictation mirror ---------- */
   var dict = 'idle', baseline = '', insertTimer = 0;
@@ -264,6 +285,14 @@
       textarea.animate([{ opacity: .35 }, { opacity: 1 }], { duration: 420, easing: EASE.enter });
     }
   }
+  function setTryHeadline(t) {
+    if (tryH.textContent === t) return;
+    if (reduced() || first) { tryH.textContent = t; return; }
+    freeze(tryH); tryH.textContent = t; tryH.style.opacity = '0';
+    tween(tryH, { opacity: '1' }, 280, EASE.enter);
+  }
+  function glowOut() { tween(tryGlow, { opacity: '0', transform: 'scale(.6)' }, reduced() ? 120 : 280, EASE.exit); }
+
   window.onDictation = function (d) {
     d = d || {};
     var st = d.state;
@@ -272,20 +301,26 @@
       if (dict !== 'listening') baseline = textarea.value;
       dict = 'listening';
       field.classList.add('listening');
+      keyDown(true);
+      if (STEPS[cur] === 'microphone') { showGlyph('try', true); tile.classList.add('live'); startMeter(); return; }
       if (STEPS[cur] !== 'try') return;
       showGlyph('try', true); tile.classList.add('live'); tile.classList.remove('spin');
       setBadge(false, false); startMeter();
       setStatus('Listening…');
     } else if (st === 'transcribing') {
       dict = 'transcribing';
+      keyDown(false); glowOut();
+      if (STEPS[cur] === 'microphone') { tile.classList.remove('live'); showGlyph('microphone', true); }
       field.classList.remove('listening'); stopMeter();
       tile.classList.remove('live'); tile.classList.add('spin');
       if (STEPS[cur] === 'try') showGlyph('transcribing', true);
       setStatus('Turning speech into text…');
     } else if (st === 'done') {
       field.classList.remove('listening'); stopMeter(); tile.classList.remove('live', 'spin');
+      keyDown(false); glowOut();
       var text = (d.text || '').trim();
       if (STEPS[cur] === 'try') showGlyph('try', true);
+      else if (STEPS[cur] === 'microphone') showGlyph('microphone', true);
       if (!text) { dict = 'idle'; setStatus("Didn't catch that. Hold your button and try again."); return; }
       dict = 'done-ok';
       clearTimeout(insertTimer);
@@ -295,11 +330,15 @@
         celebrateText();
       }, 300);
       if (STEPS[cur] === 'try') setBadge(true, true);
+      setTryHeadline('That was you.');
+      placeIndicator(cur);
       setStatus("It works. Use it anywhere you type.", true);
-      finishBtn.textContent = "You're Set";
+      finishBtn.textContent = "You're set";
     } else if (st === 'cancelled' || st === 'error' || st === 'hidden') {
       field.classList.remove('listening'); stopMeter(); tile.classList.remove('live', 'spin');
+      keyDown(false); glowOut();
       if (STEPS[cur] === 'try') showGlyph('try', true);
+      else if (STEPS[cur] === 'microphone') showGlyph('microphone', true);
       if (dict !== 'done-ok') dict = 'idle';
       if (st === 'cancelled') setStatus('Cancelled. Hold your button to try again.');
       if (st === 'error') setStatus(d.message || 'Something went wrong. Try again.');
@@ -319,6 +358,11 @@
       var h = v < 0.04 ? 8 : 8 + 30 * v * PROFILE[i] * jitter[i];   // 8px floor: a 5px bar shorter than that reads as a dash
       bars[i].style.transform = 'scaleY(' + (h / 40).toFixed(3) + ')';
     }
+    if (dict === 'listening') {
+      var g = Math.min(1, v);
+      tryGlow.style.transform = 'scale(' + (0.6 + 0.7 * g).toFixed(3) + ')';
+      tryGlow.style.opacity = (0.25 + 0.75 * g).toFixed(3);
+    }
   }
   function frame(t) {
     raf = requestAnimationFrame(frame);
@@ -333,7 +377,7 @@
     }
     if (!gotSample) target *= 0.85; gotSample = false;
   }
-  function startMeter() { if (!raf) { lastT = 0; raf = requestAnimationFrame(frame); } }
+  function startMeter() { freeze(tryGlow); if (!raf) { lastT = 0; raf = requestAnimationFrame(frame); } }
   // At rest the meter holds a quiet waveform silhouette, so the idle tile reads as a glyph, not dots.
   function restScale(i) { return (0.14 + 0.36 * PROFILE[i] * PROFILE[i]).toFixed(3); }
   function stopMeter() {

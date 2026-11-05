@@ -80,3 +80,9 @@ Width W comes from DESIGN.md §3.2. "XF" means crossfade the content: outgoing o
 - **Hover lift on tiles:** translateY −2px plus a shadow-opacity change over 140ms `--ease-standard`.
 - **Not used:** parallax, animated blur, and any decorative loop other than the hero.
 - **Simulator and demo:** run the same HUD module and the same transition table.
+
+## FD-1 additions (Nov 2026)
+- **Starting:** hollow signal ring, no meter. It fills solid in the same frame the first audio level arrives. No pulse: the ring itself says "wait".
+- **Level glow:** a warm radial glow behind the pill scales 0.6 to 1.3 and fades with `setLevel` while listening (transform and opacity only, about 70ms linear per sample). It fades out in 240ms on any other state. Reduced motion: fixed size, opacity steps only.
+- **Condense:** pasted or previewed words arrive at opacity 0, `blur(6px)`, translateY(-4px), and settle sharp in 280ms on the enter curve, 55ms apart. Reduced motion: plain crossfade, no blur.
+- **Key press:** aluminum keys sink 6 to 8px in 140ms on the standard curve and rise in 140ms. The orange LED turns on in the same frame as the press.
