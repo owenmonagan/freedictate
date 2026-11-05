@@ -11,8 +11,9 @@ One-button, free, offline dictation for Mac. Install it, pick your button, hold 
   - Consistent: one button and the same Whisper large-v3 turbo accuracy in every app (Mail, Slack, editors, terminals), unlike dictation built into one tool (Apple Dictation, Claude Code's own voice input).
   - Free: no subscription, no word limit, no account, no pro tier.
   - Open source: MIT. Anyone can check that nothing leaves the Mac (whisper.cpp runs on-device).
+- "AI" means AI speech recognition (OpenAI's Whisper, on-device). Never imply AI rewriting or editing: FreeDictate types what you said.
 - Comparisons stay structural ("works in every app") until a dated side-by-side test backs an accuracy claim.
-- SEO targets: voice to text mac, speech to text mac free, free dictation app mac, free wispr flow alternative, offline speech to text mac, push to talk dictation mac, open source dictation mac, superwhisper alternative free, mouse button dictation.
+- SEO targets: ai voice to text mac, ai dictation mac, voice to text mac, speech to text mac free, free dictation app mac, free wispr flow alternative, offline speech to text mac, push to talk dictation mac, open source dictation mac, superwhisper alternative free, mouse button dictation.
 - Competitors (Wispr Flow, Superwhisper, VoiceInk) sell features, modes and AI. We win on $0 plus zero configuration. Keep claims about them general and defensible.
 
 ## How it works
