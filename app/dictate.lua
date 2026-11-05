@@ -75,9 +75,10 @@ end
 local function later(sec, fn) table.insert(hud.timers, hs.timer.doAfter(sec, fn)) end
 
 -- Fallback: the old static canvas pill (no motion).
-local CANVAS_LABELS = {listening = "Listening…", transcribing = "Transcribing…", done = "Pasted",
+local CANVAS_LABELS = {starting = "One moment", listening = "Listening…", transcribing = "Transcribing…", done = "Pasted",
                        cancelled = "Cancelled", error = "Something went wrong"}
-local CANVAS_DOTS = {listening = {red = 1, green = 0.25, blue = 0.25, alpha = 1},
+local CANVAS_DOTS = {starting = {red = 1, green = 0.42, blue = 0.17, alpha = 0.35},
+                     listening = {red = 1, green = 0.25, blue = 0.25, alpha = 1},
                      transcribing = {red = 0.3, green = 0.6, blue = 1, alpha = 1},
                      done = {red = 0.2, green = 0.8, blue = 0.4, alpha = 1},
                      cancelled = {white = 0.6, alpha = 1},
@@ -222,19 +223,35 @@ local function paste(text)
   return true
 end
 
+-- Whisper invents these on silent or near-silent audio.
+local SILENCE_DB = -50       -- peak RMS below this: nothing was said
+local HALLUCINATION_DB = -40 -- peak below this: a lone stock phrase is probably invented
+local HALLUCINATIONS = {["thank you"] = true, ["thank you."] = true, ["thanks for watching"] = true,
+                        ["thanks for watching!"] = true, ["thank you for watching."] = true,
+                        ["you"] = true, ["bye."] = true}
+local peakDb = -100
+local micOpen, pendingMode = false, nil
+
+-- Listening (with a hold/tap mode) only once the mic is open; until then remember the mode.
+local function showListening(mode)
+  if micOpen then hudState("listening", mode and {mode = mode} or nil) else pendingMode = mode end
+end
+
 local function clean(out)
   if not out then return "" end
   out = out:gsub("%[BLANK_AUDIO%]", ""):gsub("%(%s*[Ss]ilence%s*%)", "")
   out = out:gsub("\n", " "):gsub("%s+", " ")
-  return (out:gsub("^%s+", ""):gsub("%s+$", ""))
+  out = out:gsub("^%s+", ""):gsub("%s+$", "")
+  if peakDb < HALLUCINATION_DB and HALLUCINATIONS[out:lower()] then return "" end
+  return out
 end
 
 local function finish(text, failed)
   state = "idle"
   refreshMenu()
   if failed then hudFlash("error", {message = MSG.server}, 2.4); return end
-  text = clean(text)
-  if text == "" then hudFlash("done", {text = ""}, 0.42); return end
+  text = peakDb < SILENCE_DB and "" or clean(text)
+  if text == "" then hudFlash("done", {text = ""}, 1.8); return end
   local pasted = paste(text)
   -- Setup's "Try it" field gets the words even when the paste can't land.
   onboardDictation("done", {text = text})
@@ -285,7 +302,9 @@ local function startRecording()
   os.remove(WAV)
   state = "recording"
   lastLevel, lastLevelAt = -1, 0
-  hudState("listening")
+  peakDb, micOpen, pendingMode = -100, false, nil
+  -- "starting" until ffmpeg reports its first level: the mic is really open then.
+  hudState("starting")
   local buf = ""
   recorder = hs.task.new(FFMPEG,
     function(code)            -- exited on its own (no SIGINT from us): mic denied / no input
@@ -304,7 +323,14 @@ local function startRecording()
       buf = buf:sub(lastNl + 1)
       local db
       for v in complete:gmatch("RMS_level=([%-%d%.inf]+)") do db = tonumber(v) or -100 end
-      if db then hudLevel(dbToLevel(db)) end
+      if db then
+        if db > peakDb then peakDb = db end
+        if not micOpen and state == "recording" and not stopping then
+          micOpen = true
+          showListening(pendingMode)
+        end
+        hudLevel(dbToLevel(db))
+      end
       return true
     end,
     {"-hide_banner", "-nostats", "-loglevel", "info", "-f", "avfoundation", "-i", ":default",
@@ -401,12 +427,12 @@ local function onPress()
     holdTimer = hs.timer.doAfter(HOLD_THRESHOLD, function()
       holdTimer = nil
       if keyIsDown and startedByThisPress and state == "recording" then
-        hudState("listening", {mode = "hold"})
+        showListening("hold")
       end
     end)
   elseif state == "recording" then
     startedByThisPress = false
-    stopRecording(false)            -- second tap stops
+    stopRecording(not micOpen)      -- second tap stops (cancels if the mic never opened)
   end
   refreshMenu()
 end
@@ -417,9 +443,9 @@ local function onRelease()
   local held = hs.timer.secondsSinceEpoch() - pressedAt
   if startedByThisPress and state == "recording" then
     if held >= HOLD_THRESHOLD then
-      stopRecording(false)          -- hold mode: release stops
+      stopRecording(not micOpen)    -- hold mode: release stops (cancels if the mic never opened)
     else
-      hudState("listening", {mode = "tap"}) -- latched: tap again to stop
+      showListening("tap")          -- latched: tap again to stop
     end
   end
   startedByThisPress = false

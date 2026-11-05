@@ -38,6 +38,7 @@
 <iframe id="hud" src="hud.html" title="HUD" allowtransparency="true"></iframe>
 
 <div class="panel">
+  <button data-s="starting">Starting</button>
   <button data-s="listening">Listening</button>
   <button data-s="listening" data-m="hold">Hold</button>
   <button data-s="listening" data-m="tap">Tap</button>
@@ -109,8 +110,8 @@ function typeInto(text) {
   let i = 0; const iv = setInterval(() => { f.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(iv); }, 1000 / 28);
 }
 document.getElementById('flowHold').onclick = () => {
-  clear(); send('listening');
-  at(350, () => send('listening', { mode: 'hold' }));
+  clear(); send('starting');
+  at(300, () => send('listening', { mode: 'hold' }));
   at(2600, () => send('transcribing'));
   at(3500, () => { send('done', { text: TEXT }); typeInto(TEXT); });
   at(4200, () => send('hidden'));
@@ -120,7 +121,7 @@ document.getElementById('flowTap').onclick = () => {
   at(180, () => send('listening', { mode: 'tap' }));
   at(2800, () => send('transcribing'));
   at(3600, () => send('done', { text: '' }));
-  at(4020, () => send('hidden'));
+  at(5400, () => send('hidden'));
 };
 document.getElementById('flowEsc').onclick = () => {
   clear(); send('listening');

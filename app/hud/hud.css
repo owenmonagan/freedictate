@@ -54,6 +54,7 @@ body{font-family:var(--font);-webkit-font-smoothing:antialiased;user-select:none
 .check path{stroke-dasharray:1;stroke-dashoffset:1}
 .preview{color:var(--hud-fg-2)}
 .ring{color:var(--hud-fg-3)}
+.ring.start{color:var(--hud-record)}
 .x{color:var(--hud-fg-2)}
 .warn{color:var(--hud-warning)}
 

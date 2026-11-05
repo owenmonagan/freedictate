@@ -259,6 +259,23 @@
         break;
       }
 
+      case 'starting':
+        // key is down, mic still opening: hollow ring until the first level arrives
+        stopLoop(); stopEll();
+        mode = newMode;
+        if (prev === 'hidden' || parseFloat(getComputedStyle(hud).opacity) < 0.02) {
+          shapeSnap(148);
+          Object.keys(faces).forEach(function (k) { setNow(faces[k], { opacity: '0' }); });
+          setNow(faces.starting, { opacity: '1' }); activeFace = faces.starting;
+          setNow(press, { transform: 'scale(1)' });
+          setNow(shake, { transform: 'none' });
+          enterBare();
+        } else {
+          shapeTo(148, 240, EASE.morph); showFace('starting', 240);
+        }
+        announce('Starting');
+        break;
+
       case 'transcribing':
         stopLoop();
         setPressed(false, 300);
@@ -354,7 +371,7 @@
   }
 
   /* coalesce calls under 16ms apart: last one wins */
-  var STATES = { hidden: 1, listening: 1, transcribing: 1, done: 1, cancelled: 1, error: 1 };
+  var STATES = { hidden: 1, starting: 1, listening: 1, transcribing: 1, done: 1, cancelled: 1, error: 1 };
   var lastApply = 0, pending = null, pendingTimer = 0;
   window.setState = function (s, payload) {
     if (!STATES[s]) return;

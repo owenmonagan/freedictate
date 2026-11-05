@@ -64,10 +64,10 @@ The message is one line, ellipsized at 264px. The full string goes into the aria
 
 ### 3.3 Lifecycle and timing (Lua side)
 - **Startup:** create the webview once and load it once. Warm it up with `:alpha(0)`, show, then hide. Afterwards use only show and hide plus `evaluateJavaScript`.
-- **Key down:** `:show()` and `setState('listening')` in the same tick. Mode is pending.
+- **Key down:** `:show()` and `setState('starting')` in the same tick: a hollow record-colored ring and "One moment". When ffmpeg reports its first audio level (the mic is really open), send `setState('listening')`. Mode is pending. Releasing before the mic opens cancels.
 - **At the 0.35s hold threshold:** send `setState('listening',{mode:'hold'})`. If the key was released before 0.35s, it was a tap: send `setState('listening',{mode:'tap'})`. The page retargets in place and never re-enters.
 - **While listening:** `setLevel(x)` at ≤15Hz, rounded to 2 decimals, and skipped if the change is under 0.02.
-- **Stop:** send `setState('transcribing')`. When the paste completes, send `setState('done',{text})`. Then wait `0.7s` if there is text, or `0.42s` for empty text, and send `setState('hidden')`. Then `hs.timer.doAfter(EXIT_MS/1000 + 0.03, hide window)`. Cancel that timer if any new state arrives.
+- **Stop:** send `setState('transcribing')`. When the paste completes, send `setState('done',{text})`. Then wait `0.7s` if there is text, or `1.8s` for empty text ("Nothing heard": peak level below −50 dB, or a lone Whisper silence phrase like "Thank you." below −40 dB), and send `setState('hidden')`. Then `hs.timer.doAfter(EXIT_MS/1000 + 0.03, hide window)`. Cancel that timer if any new state arrives.
 - **Esc:** send `setState('cancelled')`, then `setState('hidden')` after 0.5s, then hide after EXIT_MS.
 - **Error:** send `setState('error',{message})`, then `setState('hidden')` after 2.4s, then hide after EXIT_MS.
 - `window.EXIT_MS = 200` is a single constant and covers every exit in both motion modes.
@@ -251,7 +251,7 @@ freedictate/
 
 ## 8. JS<->LUA CONTRACT (verbatim, fixed)
 - HUD page app/hud/hud.html is loaded in a transparent borderless hs.webview (approx 280x72 px, bottom-center of main screen, ~60px above bottom). Background must be transparent (html,body background: transparent).
-  Page exposes: window.setState(state, payload?) where state ∈ 'hidden'|'listening'|'transcribing'|'done'|'cancelled'|'error'; payload is optional {mode:'tap'|'hold', text?:string, message?:string}. window.setLevel(x) with x in 0..1 (called ~15Hz while listening). Lua hides the webview window itself ~after the page's exit animation; page must expose window.EXIT_MS (number, ms the hide/exit animation takes) so Lua knows when to hide.
+  Page exposes: window.setState(state, payload?) where state ∈ 'hidden'|'starting'|'listening'|'transcribing'|'done'|'cancelled'|'error'; payload is optional {mode:'tap'|'hold', text?:string, message?:string}. window.setLevel(x) with x in 0..1 (called ~15Hz while listening). Lua hides the webview window itself ~after the page's exit animation; page must expose window.EXIT_MS (number, ms the hide/exit animation takes) so Lua knows when to hide.
 - Onboarding page app/onboarding/index.html is shown in a normal titled hs.webview window (~760x560). It talks to Lua via window.webkit.messageHandlers.dictate.postMessage({action:'setKey'}|{action:'resetKey'}|{action:'close'}|{action:'openAccessibility'}|{action:'openMicrophone'}). Lua calls back window.onKeyChanged(label) after a key is captured, and window.onInit({keyLabel, serverOk:boolean, accessibility:boolean}) once the page loads. Page must work standalone in a normal browser (guard window.webkit undefined: simulate).
 - No network/CDN dependencies in app/ pages (offline). Site may use only inline assets too.
 
