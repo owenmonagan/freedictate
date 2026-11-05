@@ -72,4 +72,4 @@
 
 /* subpage footer sits closer to content */
 .page~.footer{padding-top:var(--s8)}
-.prose caption{caption-side:bottom;text-align:left;font-size:var(--fs-footnote);color:var(--label-3);padding-top:var(--s2)}
+.prose caption{caption-side:bottom;text-align:left;padding-left:var(--s4);font-size:var(--fs-footnote);color:var(--label-3);padding-top:var(--s2)}

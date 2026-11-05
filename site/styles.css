@@ -170,3 +170,4 @@ h2{font-family:var(--font-display);font-size:var(--fs-title1);font-weight:var(--
 .foot-links+.foot-links{margin-top:calc(-1 * var(--s3))}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mini-pill{box-shadow:0 0 0 .5px rgba(255,255,255,.14)}}
 :root[data-theme="dark"] .mini-pill{box-shadow:0 0 0 .5px rgba(255,255,255,.14)}
+.faq a{color:var(--label);text-decoration:underline;text-decoration-color:var(--separator);text-underline-offset:.2em}
