@@ -4,7 +4,7 @@
   var CSS = `
 .dh{position:absolute;left:50%;top:50%;height:var(--hud-h);margin-top:calc(var(--hud-h)/-2);opacity:0;pointer-events:none;font-family:var(--font)}
 .dh-shell{position:absolute;left:0;top:0;height:100%;transform-origin:center;filter:drop-shadow(0 8px 12px rgba(0,0,0,.28)) drop-shadow(0 2px 3px rgba(0,0,0,.18))}
-.dh-bg{position:absolute;inset:0;opacity:.78}
+.dh-bg{position:absolute;inset:0;opacity:.92}
 .dh-l,.dh-r,.dh-m{position:absolute;top:0;height:100%;background:var(--hud-solid);will-change:transform}
 .dh-l{left:0;width:20px;border-radius:20px 0 0 20px}
 .dh-r{left:0;width:20px;border-radius:0 20px 20px 0}
@@ -40,6 +40,7 @@
     spin:'<svg class="dh-spin" width="14" height="14" viewBox="0 0 14 14" stroke="var(--hud-fg-2)" stroke-width="2"><path d="M7 1.5A5.5 5.5 0 1 1 1.5 7"/></svg>',
     check:'<svg width="16" height="16" viewBox="0 0 16 16" stroke="var(--hud-success)" stroke-width="2"><path pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg>',
     ring:'<svg width="14" height="14" viewBox="0 0 14 14" stroke="var(--hud-fg-3)" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/></svg>',
+    start:'<svg width="14" height="14" viewBox="0 0 14 14" stroke="var(--hud-record)" stroke-width="2"><circle cx="7" cy="7" r="5"/></svg>',
     x:'<svg width="12" height="12" viewBox="0 0 12 12" stroke="var(--hud-fg-2)" stroke-width="1.75"><path d="M3 3l6 6M9 3 3 9"/></svg>',
     warn:'<svg width="14" height="14" viewBox="0 0 14 14" stroke="var(--hud-warning)" stroke-width="1.5"><path d="M7 1.8 12.8 12H1.2z"/><path d="M7 5.5v3M7 10.3v.1"/></svg>'
   };
@@ -131,6 +132,8 @@
           if(!RM.matches)anim(shell,{transform:'translateY(0px) scale('+(p.mode==='hold'?.97:1)+')'},140,STD);
           sr.textContent=label;return;
         }
+      }else if(state==='starting'){
+        html='<span class="dh-g">'+G.start+'</span><span class="dh-t dh-t2">One moment</span>';label='Starting';w=148;dur=240;ease=STD;
       }else if(state==='transcribing'){
         html='<span class="dh-g">'+G.spin+'</span><span class="dh-t dh-shim">Transcribing…</span>';label='Transcribing';w=168;
       }else if(state==='done'){
